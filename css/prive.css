@@ -1,0 +1,67 @@
+/* SHAÏSTINE PRIVÉ Styles */
+
+body {
+    background-color: #030303;
+    color: #F0F0F0;
+}
+
+/* 3D Transform Utilities */
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+
+/* Ensure the background images cover the container beautifully */
+.bottle-layer {
+    background-size: cover;
+    background-position: center;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
+    transition: filter 0.3s ease;
+}
+
+/* Mist Particles Animation */
+.mist-container {
+    mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+}
+
+.mist-particle {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
+    animation: mistDrift 20s infinite linear;
+    filter: blur(40px);
+}
+
+.particle-1 { animation-duration: 25s; }
+.particle-2 { animation-duration: 35s; animation-direction: reverse; top: -30%; left: -20%; background: radial-gradient(circle, rgba(212,175,55,0.02) 0%, transparent 50%); }
+.particle-3 { animation-duration: 30s; top: -60%; left: -60%; animation-delay: -10s; }
+
+@keyframes mistDrift {
+    0% { transform: rotate(0deg) translate(0, 0) scale(1); }
+    33% { transform: rotate(120deg) translate(20px, -30px) scale(1.1); }
+    66% { transform: rotate(240deg) translate(-20px, 10px) scale(0.9); }
+    100% { transform: rotate(360deg) translate(0, 0) scale(1); }
+}
+
+/* Smooth selection */
+::selection {
+    background-color: #D4AF37;
+    color: #000;
+}
+
+/* Custom Scrollbar for Dark Theme */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #030303;
+}
+::-webkit-scrollbar-thumb {
+    background: #222;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #D4AF37;
+}

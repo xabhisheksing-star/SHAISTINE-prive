@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAÏSTINE PRIVÉ — Haute Parfumerie & Bespoke Sillage</title>
+    <meta name="description" content="Immerse in the sensory alchemy of Shaïstine Privé. 240-frame interactive scroll animation exploring the bespoke creation of L'Extrait Noir.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader" class="preloader">
+        <div class="preloader-content">
+            <div class="preloader-monogram">SP</div>
+            <h2 class="preloader-brand">SHAÏSTINE PRIVÉ</h2>
+            <p id="preloaderText" class="preloader-sub">HARMONIZING 240 OLFACTIVE FRAMES...</p>
+            <div class="preloader-bar-bg">
+                <div id="preloaderBar" class="preloader-bar-fill"></div>
+            </div>
+            <div id="preloaderPercent" class="preloader-percent">0%</div>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header id="siteHeader" class="site-header">
+        <div class="header-container">
+            <a href="#" class="brand-logo">
+                <span class="brand-title">SHAÏSTINE PRIVÉ</span>
+                <span class="brand-tagline">PARIS · HAUTE PARFUMERIE</span>
+            </a>
+
+            <nav class="desktop-nav">
+                <a href="#experience" class="nav-link active">THE VESSEL</a>
+                <a href="#olfactive" class="nav-link">PYRAMID</a>
+                <a href="#collection" class="nav-link">COLLECTION</a>
+                <a href="#philosophy" class="nav-link">MAISON</a>
+            </nav>
+
+            <div class="header-actions">
+                <!-- Sound Toggle -->
+                <button id="soundToggleBtn" class="action-btn" title="Toggle Sensory Sound Mist" aria-label="Toggle Sensory Sound">
+                    <span class="sound-wave-icon" id="soundIcon">
+                        <span></span><span></span><span></span><span></span>
+                    </span>
+                    <span id="soundText" class="btn-text-sm">AUDIO OFF</span>
+                </button>
+
+                <!-- Scent Quiz Button -->
+                <button id="scentQuizBtn" class="action-btn btn-gold-pill" title="Private Consultation">
+                    FIND YOUR SCENT
+                </button>
+
+                <!-- Cart Button -->
+                <button id="openCartBtn" class="cart-btn" aria-label="Open Shopping Bag">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    <span id="cartCountBadge" class="cart-badge">0</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="mobile-toggle-btn" aria-label="Toggle Navigation Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAVIGATION DRAWER -->
+    <div id="mobileMenu" class="mobile-drawer hidden">
+        <button id="closeMobileMenuBtn" class="close-drawer-btn" aria-label="Close menu">&times;</button>
+        <div class="mobile-menu-brand">SHAÏSTINE PRIVÉ</div>
+        <nav class="mobile-nav-links">
+            <a href="#experience" class="mobile-nav-link">THE VESSEL SCROLL</a>
+            <a href="#olfactive" class="mobile-nav-link">OLFACTIVE PYRAMID</a>
+            <a href="#collection" class="mobile-nav-link">SIGNATURE COLLECTION</a>
+            <a href="#philosophy" class="mobile-nav-link">PHILOSOPHY & SILLAGE</a>
+        </nav>
+        <div class="mobile-menu-actions">
+            <button id="mobileSoundToggle" class="action-btn w-full">TOGGLE AMBIENT MIST AUDIO</button>
+        </div>
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <main>
+
+        <!-- 1. HERO SCROLL ANIMATION SECTION (240 FRAMES IN LOOP) -->
+        <section id="experience" class="scroll-track">
+            <div class="sticky-canvas-container">
+                
+                <!-- 3D Perspective Stage for subtle cursor tilt & bottle reaction -->
+                <div class="canvas-3d-stage">
+                    <div id="bottleCanvasWrapper" class="bottle-canvas-wrapper">
+                        <!-- Main Scrubbing Canvas -->
+                        <canvas id="frameCanvas"></canvas>
+                        <!-- Dynamic Glass Reflection Highlight responding to cursor -->
+                        <div id="bottleHighlight" class="bottle-highlight-layer"></div>
+                        <!-- Responsive Perfume Mist Particle Layer -->
+                        <div id="mistReaction" class="mist-reaction-layer"></div>
+                    </div>
+                </div>
+                
+                <!-- Interactive Central Bottle Hover Zone for EXPLORE Cursor State -->
+                <div id="bottleHoverZone" class="bottle-hover-zone" aria-label="Interactive Perfume Flacon Zone"></div>
+
+                <!-- Cinematic Vignettes & Lighting Overlay -->
+                <div class="canvas-vignette"></div>
+                <div class="ambient-glow"></div>
+
+                <!-- Initial Hero Intro Typography (Fades as you scroll into the frames) -->
+                <div id="heroIntro" class="hero-intro-overlay">
+                    <span class="gold-subtitle">EXTRAIT DE PARFUM · EDITION PRIVÉE</span>
+                    <h1 class="hero-main-title">L’EXTRAIT NOIR</h1>
+                    <p class="hero-desc">An ethereal study in obsidian glass, liquid light, and 240 continuous frames of sensory mist.</p>
+                </div>
+
+                <!-- Story Phase Overlays (Synchronized to frame milestones) -->
+                <div id="storyStep1" class="story-step active">
+                    <div class="story-card glass-panel">
+                        <span class="story-phase-tag">PHASE I · FRAMES 001–060</span>
+                        <h3 class="story-title font-editorial">The Obsidian Vessel</h3>
+                        <p class="story-desc">Emerging from primeval mineral darkness. Hand-blown smoked crystal faceted to capture stray photon beams upon dark liquid marble.</p>
+                        <div class="story-attributes">
+                            <span class="attr-pill">Smoked Crystal</span>
+                            <span class="attr-pill">Champagne Brass</span>
+                            <span class="attr-pill">Reflective Depth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="storyStep2" class="story-step">
+                    <div class="story-card glass-panel">
+                        <span class="story-phase-tag">PHASE II · FRAMES 061–120</span>
+                        <h3 class="story-title font-editorial">Micro-Atomization</h3>
+                        <p class="story-desc">Mechanical micro-dispersion atomizes pure perfume oil into a 12-micron velvet plume, unchaining sparkling Calabrian Bergamot and Pink Peppercorn.</p>
+                        <div class="story-attributes">
+                            <span class="attr-pill">Ultrasonic Spray</span>
+                            <span class="attr-pill">Calabrian Bergamot</span>
+                            <span class="attr-pill">Crushed Pepper</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="storyStep3" class="story-step">
+                    <div class="story-card glass-panel">
+                        <span class="story-phase-tag">PHASE III · FRAMES 121–180</span>
+                        <h3 class="story-title font-editorial">The Golden Seal</h3>
+                        <p class="story-desc">The bottle executes a slow axial pirouette, catching the warm halo to illuminate the 24K gilded CS insignia. The opulent heart of Florentine Orris unfurls.</p>
+                        <div class="story-attributes">
+                            <span class="attr-pill">24K Monogram</span>
+                            <span class="attr-pill">Florentine Orris</span>
+                            <span class="attr-pill">Smoked Incense</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="storyStep4" class="story-step">
+                    <div class="story-card glass-panel">
+                        <span class="story-phase-tag">PHASE IV · FRAMES 181–240</span>
+                        <h3 class="story-title font-editorial">Resonance Eternal</h3>
+                        <p class="story-desc">Resting in serene equilibrium. The golden halo settles as the base of Madagascan Bourbon Vanilla and Grey Ambergris secures a 48-hour indelible sillage.</p>
+                        <div class="story-attributes">
+                            <span class="attr-pill">48H Sillage</span>
+                            <span class="attr-pill">Bourbon Vanilla</span>
+                            <span class="attr-pill">Rare Ambergris</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FLOATING INTERACTIVE HUD (Controls, Loop Modes, Scrubber, Autoplay) -->
+                <div class="interactive-hud glass-pill">
+                    <!-- Top Info Row -->
+                    <div class="hud-top-row">
+                        <div class="hud-phase-info">
+                            <span class="pulse-indicator"></span>
+                            <span id="hudPhaseName" class="hud-phase-title">PHASE I: THE VESSEL</span>
+                        </div>
+                        <div class="hud-metrics">
+                            <span id="hudFrameCounter" class="hud-frame-badge">FRAME 001 / 240</span>
+                            <span id="hudPercent" class="hud-percent-badge">0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Timeline Scrubber -->
+                    <div id="scrubContainer" class="scrub-container" title="Click or drag to scrub frames">
+                        <div class="scrub-ticks">
+                            <span class="tick" style="left: 0%" title="Phase I: Vessel"></span>
+                            <span class="tick" style="left: 25%" title="Phase II: Atomization"></span>
+                            <span class="tick" style="left: 50%" title="Phase III: Golden Seal"></span>
+                            <span class="tick" style="left: 75%" title="Phase IV: Sillage"></span>
+                            <span class="tick" style="left: 100%" title="Loop Boundary"></span>
+                        </div>
+                        <div class="scrub-track">
+                            <div id="scrubFillBar" class="scrub-fill"></div>
+                            <div id="scrubThumb" class="scrub-thumb"></div>
+                        </div>
+                    </div>
+
+                    <!-- Controls Action Row -->
+                    <div class="hud-controls-row">
+                        <!-- Auto-Play Loop Button -->
+                        <button id="autoPlayToggleBtn" class="hud-btn hud-btn-gold" title="Play animation in continuous smooth loop">
+                            <svg id="playIconSvg" class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            <span id="playBtnText">AUTO-PLAY</span>
+                        </button>
+
+                        <!-- Loop Mode Selector (Infinite Scroll vs Ping-Pong vs Standard) -->
+                        <button id="loopModeBtn" class="hud-btn" title="Toggle loop mechanics: Infinite Loop / Ping-Pong / Bound">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 1l4 4-4 4"/>
+                                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                                <path d="M7 23l-4-4 4-4"/>
+                                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                            </svg>
+                            <span id="loopModeText">LOOP: BOUND</span>
+                        </button>
+
+                        <!-- Playback Speed Button -->
+                        <button id="speedToggleBtn" class="hud-btn" title="Adjust playback speed">
+                            <span id="speedText">1.0x</span>
+                        </button>
+
+                        <!-- Reset / Top Button -->
+                        <button id="restartBtn" class="hud-btn" title="Restart animation from frame 1">
+                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 4v6h6"/>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                            </svg>
+                            <span>RESET</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Animated Scroll Hint -->
+                <div id="scrollHint" class="scroll-hint">
+                    <span class="hint-text">SCROLL TO DISPERSE · 240 FRAMES</span>
+                    <div class="mouse-icon">
+                        <div class="wheel-dot"></div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. OLFACTIVE ARCHITECTURE / PYRAMID SECTION -->
+        <section id="olfactive" class="section olfactive-section">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="gold-subtitle">THE NOSE'S SCORE</span>
+                    <h2 class="section-title font-editorial">Olfactive Architecture</h2>
+                    <p class="section-desc">Each note is harvested at astronomical zenith to maintain maximum molecular potency.</p>
+                </div>
+
+                <!-- Pyramid Tabs -->
+                <div class="pyramid-tabs-wrapper reveal-up" data-delay="100">
+                    <div class="pyramid-tab-buttons">
+                        <button class="pyramid-tab active" data-target="topNotes">
+                            <span class="tab-level">01</span>
+                            <span class="tab-name">TOP ACCORDS</span>
+                            <span class="tab-time">0–30 MIN</span>
+                        </button>
+                        <button class="pyramid-tab" data-target="heartNotes">
+                            <span class="tab-level">02</span>
+                            <span class="tab-name">HEART NOTES</span>
+                            <span class="tab-time">30 MIN–4 HRS</span>
+                        </button>
+                        <button class="pyramid-tab" data-target="baseNotes">
+                            <span class="tab-level">03</span>
+                            <span class="tab-name">BASE SILLAGE</span>
+                            <span class="tab-time">4–48 HRS</span>
+                        </button>
+                    </div>
+
+                    <!-- Pyramid Content Panels -->
+                    <div class="pyramid-content-container glass-panel">
+                        <!-- Top Notes -->
+                        <div id="topNotes" class="pyramid-content active">
+                            <div class="notes-grid">
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Calabrian Bergamot</h4>
+                                        <span class="note-origin">Italy · Hand-pressed</span>
+                                    </div>
+                                    <p class="note-desc">Cold-expressed peel offering luminous citrus brightness, instantly cutting through the dark mineral mist.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 88%"></div>
+                                    </div>
+                                </div>
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Black Pink Peppercorn</h4>
+                                        <span class="note-origin">Madagascar · Wild Harvest</span>
+                                    </div>
+                                    <p class="note-desc">Crushed berry providing a sharp, tingling spicy vibration that awakens olfactory receptors.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Omani Frankincense Tears</h4>
+                                        <span class="note-origin">Dhofar · Sacred Resin</span>
+                                    </div>
+                                    <p class="note-desc">Pale crystalline sap, slow-burned to yield cool mineral incense smoke reminiscent of cathedral crypts.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 82%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Heart Notes -->
+                        <div id="heartNotes" class="pyramid-content hidden">
+                            <div class="notes-grid">
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Florentine Orris Butter</h4>
+                                        <span class="note-origin">Tuscany · Aged 3 Years</span>
+                                    </div>
+                                    <p class="note-desc">The aristocrat of perfumery. Powdery, violet-like root butter creating velvet tactile fullness.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 95%"></div>
+                                    </div>
+                                </div>
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Midnight Damask Rose</h4>
+                                        <span class="note-origin">Grasse · Dawn Extraction</span>
+                                    </div>
+                                    <p class="note-desc">Voluptuous, wine-dark petals gathered before sunrise to preserve honeyed spice accords.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Smoked Black Leather</h4>
+                                        <span class="note-origin">Bespoke Accord</span>
+                                    </div>
+                                    <p class="note-desc">Supple calfskin cured with birch tar and castoreum nuance, evoking bespoke ateliers.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 86%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Base Notes -->
+                        <div id="baseNotes" class="pyramid-content hidden">
+                            <div class="notes-grid">
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Sumatran Aged Patchouli</h4>
+                                        <span class="note-origin">Indonesia · Vintage 2018</span>
+                                    </div>
+                                    <p class="note-desc">Double-distilled dark leaves aged in oak casks, stripping medicinal camphor into chocolate loam.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 94%"></div>
+                                    </div>
+                                </div>
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Bourbon Vanilla Resinoid</h4>
+                                        <span class="note-origin">Madagascar · Slow Cured</span>
+                                    </div>
+                                    <p class="note-desc">Dark, leathery bean pods infused with smoky molasses nuance rather than confectioner sweetness.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                                <div class="note-card">
+                                    <div class="note-header">
+                                        <h4 class="note-name font-editorial">Fossilized Ambergris</h4>
+                                        <span class="note-origin">Atlantic Shore · Ethical</span>
+                                    </div>
+                                    <p class="note-desc">Sun-bleached oceanic mineral wax delivering an intimate warm skin radiance lasting beyond 48 hours.</p>
+                                    <div class="potency-bar">
+                                        <div class="potency-fill" style="width: 98%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. SIGNATURE BESPOKE COLLECTION -->
+        <section id="collection" class="section collection-section">
+            <div class="container">
+                <div class="section-header reveal-up">
+                    <span class="gold-subtitle">HAUTE PARFUMERIE</span>
+                    <h2 class="section-title font-editorial">The Privé Collection</h2>
+                    <p class="section-desc">Numbered flacons poured in small seasonal batches at our Grasse atelier.</p>
+                </div>
+
+                <div class="products-grid">
+                    <!-- Product 1: Noir & Ivoire -->
+                    <div class="product-card glass-panel reveal-up" data-delay="100">
+                        <div class="product-badge">HERO EXTRAIT</div>
+                        <div class="product-image-container">
+                            <img src="assets/featured.jpg" alt="Maison Élan Noir & Ivoire" class="product-img" loading="lazy">
+                        </div>
+                        <div class="product-details">
+                            <span class="product-volume">50ml / 1.7 FL. OZ. · 32% CONCENTRATION</span>
+                            <h3 class="product-name font-editorial">Noir & Ivoire</h3>
+                            <p class="product-tagline">Smoked Obsidian & Golden Orris</p>
+                            <p class="product-notes">Calabrian Bergamot · Florentine Orris · Bourbon Amber</p>
+                            <div class="product-price-row">
+                                <span class="product-price">$285.00</span>
+                                <button class="btn-buy" onclick="addToBag('Noir & Ivoire', 285, 'assets/featured.jpg')">
+                                    ADD TO BAG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2: Nocturne -->
+                    <div class="product-card glass-panel reveal-up" data-delay="200">
+                        <div class="product-badge">LIMITED VINTAGE</div>
+                        <div class="product-image-container">
+                            <img src="assets/collection3.jpg" alt="Nocturne Eau de Parfum" class="product-img" loading="lazy">
+                        </div>
+                        <div class="product-details">
+                            <span class="product-volume">100ml / 3.4 FL. OZ. · EXTRAIT DE PARFUM</span>
+                            <h3 class="product-name font-editorial">Nocturne</h3>
+                            <p class="product-tagline">Midnight Slate & Omani Frankincense</p>
+                            <p class="product-notes">Crushed Black Pepper · Birch Tar · Rare Patchouli</p>
+                            <div class="product-price-row">
+                                <span class="product-price">$310.00</span>
+                                <button class="btn-buy" onclick="addToBag('Nocturne', 310, 'assets/collection3.jpg')">
+                                    ADD TO BAG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3: Aurélia -->
+                    <div class="product-card glass-panel reveal-up" data-delay="300">
+                        <div class="product-badge">GOLDEN HARVEST</div>
+                        <div class="product-image-container">
+                            <img src="assets/collection2.jpg" alt="Aurélia Eau de Parfum" class="product-img" loading="lazy">
+                        </div>
+                        <div class="product-details">
+                            <span class="product-volume">100ml / 3.4 FL. OZ. · EAU DE PARFUM</span>
+                            <h3 class="product-name font-editorial">Aurélia</h3>
+                            <p class="product-tagline">Sun-drenched Sandstone & Wild Honey</p>
+                            <p class="product-notes">Solar Neroli · Tonka Bean · French Lavender</p>
+                            <div class="product-price-row">
+                                <span class="product-price">$260.00</span>
+                                <button class="btn-buy" onclick="addToBag('Aurélia', 260, 'assets/collection2.jpg')">
+                                    ADD TO BAG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4: L'Aura -->
+                    <div class="product-card glass-panel reveal-up" data-delay="400">
+                        <div class="product-badge">SOLAR RADIANCE</div>
+                        <div class="product-image-container">
+                            <img src="assets/collection1.jpg" alt="L'Aura Eau de Parfum" class="product-img" loading="lazy">
+                        </div>
+                        <div class="product-details">
+                            <span class="product-volume">100ml / 3.4 FL. OZ. · EAU DE PARFUM</span>
+                            <h3 class="product-name font-editorial">L'Aura</h3>
+                            <p class="product-tagline">White Petals & Mineral Ambergris</p>
+                            <p class="product-notes">Sambac Jasmine · Cashmeran · Velvet Musk</p>
+                            <div class="product-price-row">
+                                <span class="product-price">$240.00</span>
+                                <button class="btn-buy" onclick="addToBag('L\'Aura', 240, 'assets/collection1.jpg')">
+                                    ADD TO BAG
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. BESPOKE SCENT FINDER BANNER -->
+        <section class="section quiz-banner-section">
+            <div class="container">
+                <div class="quiz-banner glass-panel reveal-up">
+                    <div class="quiz-banner-content">
+                        <span class="gold-subtitle">PRIVATE OLFACTORY MATCH</span>
+                        <h2 class="quiz-banner-title font-editorial">Seeking Your Signature Frequency?</h2>
+                        <p class="quiz-banner-desc">Take our three-question sensory diagnostic to align your temperament with one of our rare extraits.</p>
+                        <button class="btn-gold-action" onclick="document.getElementById('quizModal').classList.remove('hidden')">
+                            BEGIN CONSULTATION
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. PHILOSOPHY & CRAFTSMANSHIP -->
+        <section id="philosophy" class="section philosophy-section">
+            <div class="container">
+                <div class="philosophy-grid">
+                    <div class="philosophy-card glass-panel reveal-up" data-delay="100">
+                        <span class="philosophy-number">I</span>
+                        <h3 class="philosophy-title font-editorial">32% Extrait Density</h3>
+                        <p class="philosophy-text">Unlike commercial eau de toilettes that evaporate within hours, our formulations boast pure perfume oil concentrations that bond directly to cutaneous lipids.</p>
+                    </div>
+                    <div class="philosophy-card glass-panel reveal-up" data-delay="200">
+                        <span class="philosophy-number">II</span>
+                        <h3 class="philosophy-title font-editorial">Zero Synthetic Fixatives</h3>
+                        <p class="philosophy-text">We reject chemical phthalates and heavy aldehydes. Our longevity is achieved organically through aged patchouli rhizomes and ethically salvaged oceanic ambergris.</p>
+                    </div>
+                    <div class="philosophy-card glass-panel reveal-up" data-delay="300">
+                        <span class="philosophy-number">III</span>
+                        <h3 class="philosophy-title font-editorial">Master Grasse Distillation</h3>
+                        <p class="philosophy-text">Compounded by hand in our private atelier in Provence. Each batch matures undisturbed in temperature-calibrated limestone vaults for twelve weeks.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SHOPPING BAG DRAWER -->
+    <div id="cartBackdrop" class="cart-backdrop"></div>
+    <div id="cartDrawer" class="cart-drawer">
+        <div class="cart-drawer-header">
+            <div class="cart-drawer-title-group">
+                <h3 class="font-editorial text-xl text-white">Your Shopping Bag</h3>
+                <span class="text-xs text-gold font-mono tracking-widest">BESPOKE ORDER</span>
+            </div>
+            <button id="closeCartBtn" class="close-cart-btn" aria-label="Close Shopping Bag">&times;</button>
+        </div>
+
+        <div id="cartItemsContainer" class="cart-drawer-body">
+            <!-- Populated via script.js -->
+        </div>
+
+        <div class="cart-drawer-footer">
+            <div class="cart-summary-row">
+                <span class="summary-label">Estimated Subtotal</span>
+                <span id="cartSubtotal" class="summary-value">$0.00</span>
+            </div>
+            <p class="shipping-note">Complimentary insured courier delivery with signature sample discovery vials included.</p>
+            <button id="checkoutBtn" class="btn-checkout">
+                PROCEED TO PRIVATE CHECKOUT
+            </button>
+        </div>
+    </div>
+
+    <!-- SCENT CONSULTATION QUIZ MODAL -->
+    <div id="quizModal" class="quiz-modal hidden">
+        <div class="quiz-modal-backdrop" onclick="document.getElementById('quizModal').classList.add('hidden')"></div>
+        <div class="quiz-modal-content glass-panel">
+            <button id="closeQuizBtn" class="close-quiz-btn" aria-label="Close Quiz">&times;</button>
+            <div class="quiz-header">
+                <span class="gold-subtitle">PRIVATE OLFACTORY MATCH</span>
+                <h3 class="quiz-title font-editorial">Choose Your Sensory Domain</h3>
+                <p class="quiz-desc">Which atmospheric texture speaks to your deepest memory?</p>
+            </div>
+
+            <div class="quiz-options-grid">
+                <div class="quiz-option" data-match="Noir & Ivoire">
+                    <span class="quiz-option-tag">MYSTERIOUS & REFINED</span>
+                    <h4 class="quiz-opt-title font-editorial">Obsidian Velvet & Smoke</h4>
+                    <p class="quiz-opt-desc">Florentine orris root, aged leather, and misty bergamot in low-lit drawing rooms.</p>
+                </div>
+
+                <div class="quiz-option" data-match="Nocturne">
+                    <span class="quiz-option-tag">DEEP & INTELLECTUAL</span>
+                    <h4 class="quiz-opt-title font-editorial">Midnight Crypt & Resin</h4>
+                    <p class="quiz-opt-desc">Omani frankincense tears, smoked birch tar, and damp moss after rain.</p>
+                </div>
+
+                <div class="quiz-option" data-match="Aurélia">
+                    <span class="quiz-option-tag">WARM & RADIANT</span>
+                    <h4 class="quiz-opt-title font-editorial">Sunlit Sandstone & Honey</h4>
+                    <p class="quiz-opt-desc">Solar neroli blossom, warm tonka bean, and dry Provence lavender breeze.</p>
+                </div>
+
+                <div class="quiz-option" data-match="L'Aura">
+                    <span class="quiz-option-tag">LUMINOUS & INTIMATE</span>
+                    <h4 class="quiz-opt-title font-editorial">White Petal & Skin Amber</h4>
+                    <p class="quiz-opt-desc">Night-blooming jasmine, soft cashmeran, and sun-warmed ambergris skin scent.</p>
+                </div>
+            </div>
+
+            <div id="quizResult" class="quiz-result hidden">
+                <div class="result-box">
+                    <span class="result-label">YOUR HARMONIC SIGNATURE:</span>
+                    <h3 id="quizResultName" class="result-name font-editorial">Noir & Ivoire</h3>
+                    <p class="result-sub">Formulated with rare botanical distillates for supreme emotional presence.</p>
+                    <button id="quizAddBtn" class="btn-gold-action">
+                        ADD MATCHED EXTRAIT TO BAG
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-brand-col">
+                <span class="brand-title">SHAÏSTINE PRIVÉ</span>
+                <p class="footer-desc">Haute Parfumerie engineered for timeless aura. Hand-bottled in Grasse, France.</p>
+                <div class="footer-salons">
+                    <span>PARIS · PLACE VENDÔME</span>
+                    <span>LONDON · MAYFAIR</span>
+                    <span>TOKYO · GINZA</span>
+                </div>
+            </div>
+
+            <div class="footer-links-col">
+                <h5 class="footer-heading">THE ATELIER</h5>
+                <a href="#experience">The Vessel Story</a>
+                <a href="#olfactive">Olfactive Pyramid</a>
+                <a href="#collection">Haute Collection</a>
+                <a href="#philosophy">Private Formulation</a>
+            </div>
+
+            <div class="footer-newsletter-col">
+                <h5 class="footer-heading">PRIVATE ALLOCATIONS</h5>
+                <p class="newsletter-desc">Receive strictly confidential notifications on numbered limited batch releases.</p>
+                <form class="newsletter-form" onsubmit="event.preventDefault(); alert('You have been enrolled in our private allocation ledger.'); this.reset();">
+                    <input type="email" placeholder="Enter your private email" class="newsletter-input" required>
+                    <button type="submit" class="newsletter-submit">REQUEST ACCESS</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 SHAÏSTINE PRIVÉ MAISON DE HAUTE PARFUMERIE. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- GOLDEN FOGGY CURSOR GLOW & MIST TRAIL -->
+    <canvas id="cursorMistCanvas" class="cursor-mist-canvas" aria-hidden="true"></canvas>
+    <div id="cursorFogGlow" class="cursor-fog-glow" aria-hidden="true"></div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script src="js/script.js"></script>
+</body>
+</html>

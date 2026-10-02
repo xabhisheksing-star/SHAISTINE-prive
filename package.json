@@ -1,0 +1,22 @@
+{
+  "name": "shaistine-prive",
+  "version": "1.0.0",
+  "description": "SHAÏSTINE PRIVÉ — Haute Parfumerie & 240-Frame Interactive Scroll Experience",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve .",
+    "build": "echo 'Static assets ready for deployment'"
+  },
+  "keywords": [
+    "haute-parfumerie",
+    "luxury",
+    "canvas-scrub",
+    "perfume",
+    "webgl",
+    "animation",
+    "vercel"
+  ],
+  "author": "SHAÏSTINE PRIVÉ",
+  "license": "MIT"
+}

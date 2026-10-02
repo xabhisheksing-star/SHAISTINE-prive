@@ -1,0 +1,15 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary and local editor files
+.vscode/
+.idea/
+*.log
+bin/
+obj/
+
+# Local testing and scratch
+.tempmediaStorage/
+scratch/
