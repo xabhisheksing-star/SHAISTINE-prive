@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // DOM Canvas & Preloader
     const canvas = document.getElementById('frameCanvas');
-    const ctx = canvas ? canvas.getContext('2d', { alpha: false }) : null;
+    const ctx = canvas ? canvas.getContext('2d', { alpha: true }) : null;
     const scrollTrack = document.getElementById('experience');
     const preloader = document.getElementById('preloader');
     const preloaderBar = document.getElementById('preloaderBar');
@@ -177,8 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const drawX = (canvasW - drawW) / 2;
         const drawY = (canvasH - drawH) / 2;
 
-        ctx.fillStyle = '#060606';
-        ctx.fillRect(0, 0, canvasW, canvasH);
+        ctx.clearRect(0, 0, canvasW, canvasH);
         ctx.drawImage(img, drawX, drawY, drawW, drawH);
     }
 

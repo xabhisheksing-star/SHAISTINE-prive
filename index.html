@@ -113,6 +113,7 @@
 
                 <!-- 3D Perspective Stage for subtle cursor tilt & bottle reaction -->
                 <div class="canvas-3d-stage">
+                    <div class="canvas-ambient-backdrop" aria-hidden="true"></div>
                     <div id="bottleCanvasWrapper" class="bottle-canvas-wrapper">
                         <!-- Main Scrubbing Canvas -->
                         <canvas id="frameCanvas"></canvas>
@@ -121,10 +122,9 @@
                         <!-- Responsive Perfume Mist Particle Layer -->
                         <div id="mistReaction" class="mist-reaction-layer"></div>
                     </div>
+                    <!-- Interactive Central Bottle Hover Zone for EXPLORE Cursor State -->
+                    <div id="bottleHoverZone" class="bottle-hover-zone" aria-label="Interactive Perfume Flacon Zone"></div>
                 </div>
-                
-                <!-- Interactive Central Bottle Hover Zone for EXPLORE Cursor State -->
-                <div id="bottleHoverZone" class="bottle-hover-zone" aria-label="Interactive Perfume Flacon Zone"></div>
 
                 <!-- Initial Hero Intro Typography -->
                 <div id="heroIntro" class="hero-intro-overlay">
