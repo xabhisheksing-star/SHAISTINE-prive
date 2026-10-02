@@ -94,6 +94,23 @@
         <section id="experience" class="scroll-track">
             <div class="sticky-canvas-container">
                 
+                <!-- Luxury White Architectural Guilloché & Gilded Geometry Designs -->
+                <div class="hero-luxury-backdrop" aria-hidden="true">
+                    <div class="hero-gold-filigree-grid"></div>
+                    <div class="hero-radial-champagne-halo"></div>
+                    <div class="hero-corner-accents">
+                        <span class="corner-flourish top-left"></span>
+                        <span class="corner-flourish top-right"></span>
+                        <span class="corner-flourish bottom-left"></span>
+                        <span class="corner-flourish bottom-right"></span>
+                    </div>
+                    <div class="hero-watermark-seal">
+                        <span class="watermark-crest">✦</span>
+                        <span class="watermark-monogram">SHAÏSTINE PRIVÉ</span>
+                        <span class="watermark-tag">HAUTE PARFUMERIE · ÉDITION LIMITÉE · GRASSE</span>
+                    </div>
+                </div>
+
                 <!-- 3D Perspective Stage for subtle cursor tilt & bottle reaction -->
                 <div class="canvas-3d-stage">
                     <div id="bottleCanvasWrapper" class="bottle-canvas-wrapper">
@@ -109,134 +126,12 @@
                 <!-- Interactive Central Bottle Hover Zone for EXPLORE Cursor State -->
                 <div id="bottleHoverZone" class="bottle-hover-zone" aria-label="Interactive Perfume Flacon Zone"></div>
 
-                <!-- Cinematic Vignettes & Lighting Overlay -->
-                <div class="canvas-vignette"></div>
-                <div class="ambient-glow"></div>
-
-                <!-- Initial Hero Intro Typography (Fades as you scroll into the frames) -->
+                <!-- Initial Hero Intro Typography -->
                 <div id="heroIntro" class="hero-intro-overlay">
                     <span class="gold-subtitle">EXTRAIT DE PARFUM · EDITION PRIVÉE</span>
                     <h1 class="hero-main-title">L’EXTRAIT NOIR</h1>
                     <p class="hero-desc">An ethereal study in obsidian glass, liquid light, and 240 continuous frames of sensory mist.</p>
-                </div>
-
-                <!-- Story Phase Overlays (Synchronized to frame milestones) -->
-                <div id="storyStep1" class="story-step active">
-                    <div class="story-card glass-panel">
-                        <span class="story-phase-tag">PHASE I · FRAMES 001–060</span>
-                        <h3 class="story-title font-editorial">The Obsidian Vessel</h3>
-                        <p class="story-desc">Emerging from primeval mineral darkness. Hand-blown smoked crystal faceted to capture stray photon beams upon dark liquid marble.</p>
-                        <div class="story-attributes">
-                            <span class="attr-pill">Smoked Crystal</span>
-                            <span class="attr-pill">Champagne Brass</span>
-                            <span class="attr-pill">Reflective Depth</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="storyStep2" class="story-step">
-                    <div class="story-card glass-panel">
-                        <span class="story-phase-tag">PHASE II · FRAMES 061–120</span>
-                        <h3 class="story-title font-editorial">Micro-Atomization</h3>
-                        <p class="story-desc">Mechanical micro-dispersion atomizes pure perfume oil into a 12-micron velvet plume, unchaining sparkling Calabrian Bergamot and Pink Peppercorn.</p>
-                        <div class="story-attributes">
-                            <span class="attr-pill">Ultrasonic Spray</span>
-                            <span class="attr-pill">Calabrian Bergamot</span>
-                            <span class="attr-pill">Crushed Pepper</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="storyStep3" class="story-step">
-                    <div class="story-card glass-panel">
-                        <span class="story-phase-tag">PHASE III · FRAMES 121–180</span>
-                        <h3 class="story-title font-editorial">The Golden Seal</h3>
-                        <p class="story-desc">The bottle executes a slow axial pirouette, catching the warm halo to illuminate the 24K gilded CS insignia. The opulent heart of Florentine Orris unfurls.</p>
-                        <div class="story-attributes">
-                            <span class="attr-pill">24K Monogram</span>
-                            <span class="attr-pill">Florentine Orris</span>
-                            <span class="attr-pill">Smoked Incense</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="storyStep4" class="story-step">
-                    <div class="story-card glass-panel">
-                        <span class="story-phase-tag">PHASE IV · FRAMES 181–240</span>
-                        <h3 class="story-title font-editorial">Resonance Eternal</h3>
-                        <p class="story-desc">Resting in serene equilibrium. The golden halo settles as the base of Madagascan Bourbon Vanilla and Grey Ambergris secures a 48-hour indelible sillage.</p>
-                        <div class="story-attributes">
-                            <span class="attr-pill">48H Sillage</span>
-                            <span class="attr-pill">Bourbon Vanilla</span>
-                            <span class="attr-pill">Rare Ambergris</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- FLOATING INTERACTIVE HUD (Controls, Loop Modes, Scrubber, Autoplay) -->
-                <div class="interactive-hud glass-pill">
-                    <!-- Top Info Row -->
-                    <div class="hud-top-row">
-                        <div class="hud-phase-info">
-                            <span class="pulse-indicator"></span>
-                            <span id="hudPhaseName" class="hud-phase-title">PHASE I: THE VESSEL</span>
-                        </div>
-                        <div class="hud-metrics">
-                            <span id="hudFrameCounter" class="hud-frame-badge">FRAME 001 / 240</span>
-                            <span id="hudPercent" class="hud-percent-badge">0%</span>
-                        </div>
-                    </div>
-
-                    <!-- Interactive Timeline Scrubber -->
-                    <div id="scrubContainer" class="scrub-container" title="Click or drag to scrub frames">
-                        <div class="scrub-ticks">
-                            <span class="tick" style="left: 0%" title="Phase I: Vessel"></span>
-                            <span class="tick" style="left: 25%" title="Phase II: Atomization"></span>
-                            <span class="tick" style="left: 50%" title="Phase III: Golden Seal"></span>
-                            <span class="tick" style="left: 75%" title="Phase IV: Sillage"></span>
-                            <span class="tick" style="left: 100%" title="Loop Boundary"></span>
-                        </div>
-                        <div class="scrub-track">
-                            <div id="scrubFillBar" class="scrub-fill"></div>
-                            <div id="scrubThumb" class="scrub-thumb"></div>
-                        </div>
-                    </div>
-
-                    <!-- Controls Action Row -->
-                    <div class="hud-controls-row">
-                        <!-- Auto-Play Loop Button -->
-                        <button id="autoPlayToggleBtn" class="hud-btn hud-btn-gold" title="Play animation in continuous smooth loop">
-                            <svg id="playIconSvg" class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
-                            </svg>
-                            <span id="playBtnText">AUTO-PLAY</span>
-                        </button>
-
-                        <!-- Loop Mode Selector (Infinite Scroll vs Ping-Pong vs Standard) -->
-                        <button id="loopModeBtn" class="hud-btn" title="Toggle loop mechanics: Infinite Loop / Ping-Pong / Bound">
-                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 1l4 4-4 4"/>
-                                <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-                                <path d="M7 23l-4-4 4-4"/>
-                                <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-                            </svg>
-                            <span id="loopModeText">LOOP: BOUND</span>
-                        </button>
-
-                        <!-- Playback Speed Button -->
-                        <button id="speedToggleBtn" class="hud-btn" title="Adjust playback speed">
-                            <span id="speedText">1.0x</span>
-                        </button>
-
-                        <!-- Reset / Top Button -->
-                        <button id="restartBtn" class="hud-btn" title="Restart animation from frame 1">
-                            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M1 4v6h6"/>
-                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
-                            </svg>
-                            <span>RESET</span>
-                        </button>
-                    </div>
+                    <div class="hero-title-divider"></div>
                 </div>
 
                 <!-- Animated Scroll Hint -->

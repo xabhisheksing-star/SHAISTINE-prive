@@ -122,8 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function resizeCanvas() {
         if (!canvas || !ctx) return;
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const w = window.innerWidth;
-        const h = window.innerHeight;
+        const parent = canvas.parentElement || canvas;
+        const w = parent.clientWidth || window.innerWidth;
+        const h = parent.clientHeight || window.innerHeight;
 
         canvas.width = Math.round(w * dpr);
         canvas.height = Math.round(h * dpr);
@@ -163,8 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lastRenderedFrame === idx) return;
         lastRenderedFrame = idx;
 
-        const canvasW = window.innerWidth;
-        const canvasH = window.innerHeight;
+        const parent = canvas.parentElement || canvas;
+        const canvasW = parent.clientWidth || window.innerWidth;
+        const canvasH = parent.clientHeight || window.innerHeight;
         const imgW = img.naturalWidth || 1920;
         const imgH = img.naturalHeight || 1080;
 
@@ -227,10 +229,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mist sound synthesis update
         updateAudioSwell(rawProgress);
 
-        // Hide hero intro typography and scroll hint as user scrolls
+        // Keep hero intro typography visible throughout hero section with refined parallax
         if (heroIntro) {
-            heroIntro.style.opacity = Math.max(0, 1 - (rawProgress * 5)).toString();
-            heroIntro.style.transform = `translateY(${-rawProgress * 60}px)`;
+            heroIntro.style.opacity = '1';
+            heroIntro.style.transform = `translateY(${-rawProgress * 28}px)`;
         }
 
         if (scrollHint) {
