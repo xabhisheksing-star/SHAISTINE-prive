@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
+    --dot-color: #6366f1;
     --bg-white: #ffffff;
     --bg-cream: #faf8f5;
     --bg-surface: #f6f3ee;
@@ -57,6 +58,20 @@ body {
     overflow-x: hidden;
     position: relative;
     line-height: 1.6;
+}
+
+/* ==========================================================================
+   INTERACTIVE 3D ORBITING DOT GRID BACKGROUND (FRAMER COMPONENT)
+   ========================================================================== */
+.dot-grid-bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1;
+    display: block;
 }
 
 /* Custom Luxury Scrollbar */
@@ -151,14 +166,25 @@ body {
 .section {
     padding: 120px 0;
     position: relative;
-    z-index: 5;
+    z-index: auto;
     background-color: var(--bg-white);
+}
+
+.section-alt {
+    background-color: var(--bg-cream);
+}
+
+.section .container {
+    position: relative;
+    z-index: 2;
 }
 
 .section-header {
     text-align: center;
     max-width: 680px;
     margin: 0 auto 64px auto;
+    position: relative;
+    z-index: 2;
 }
 
 .section-title {
@@ -548,6 +574,7 @@ body {
 .scroll-track {
     position: relative;
     height: 550vh;
+    z-index: auto;
     /* Deep obsidian luxury stage blending seamlessly with the fragrance bottle */
     background: #080808;
     background: linear-gradient(to bottom, #080808 0%, #080808 88%, var(--bg-white) 100%);
@@ -562,7 +589,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #080808;
+    background: transparent;
 }
 
 /* Seamless 3D Stage for isolated perfume flacon animation */
@@ -1399,7 +1426,14 @@ body {
     border-top: 1px solid rgba(184, 144, 71, 0.2);
     padding: 80px 0 36px 0;
     position: relative;
-    z-index: 5;
+    z-index: auto;
+}
+
+.site-footer .container,
+.site-footer .footer-content,
+.site-footer .footer-bottom {
+    position: relative;
+    z-index: 2;
 }
 
 .footer-content {
