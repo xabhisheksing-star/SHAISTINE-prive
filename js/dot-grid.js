@@ -41,7 +41,7 @@
         let h = color.replace("#", "");
         if (h.length === 3) h = h.split("").map(c => c + c).join("");
         const n = parseInt(h.slice(0, 6), 16);
-        if (isNaN(n)) return { r: 136, g: 136, b: 136 };
+        if (isNaN(n)) return { r: 99, g: 102, b: 241 };
         return {
             r: (n >> 16) & 255,
             g: (n >> 8) & 255,
@@ -54,11 +54,11 @@
 
         const cfg = {
             dotColor: userConfig.dotColor || "var(--dot-color, #6366f1)",
-            dotSize: userConfig.dotSize ?? 3,
+            dotSize: userConfig.dotSize ?? 3.5,
             dotSpacing: userConfig.dotSpacing ?? 28,
             orbitSpeed: userConfig.orbitSpeed ?? 1.5,
-            impactRadius: userConfig.impactRadius ?? 100,
-            scaleOnHover: userConfig.scaleOnHover ?? 1.8,
+            impactRadius: userConfig.impactRadius ?? 110,
+            scaleOnHover: userConfig.scaleOnHover ?? 2.0,
             enableRevolve: userConfig.enableRevolve ?? true
         };
 
@@ -108,7 +108,7 @@
         window.addEventListener("resize", resize, { passive: true });
         resize();
 
-        // Track mouse globally across the entire window so dots react anywhere on the website
+        // Global mouse listeners across the window so cursor interaction works across the entire website
         window.addEventListener("mousemove", (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
@@ -165,14 +165,14 @@
                 const dy = d.by - my;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 const inRange = dist < cfg.impactRadius && dist > 0;
-                let x = d.bx, y = d.by, scale = 1, alpha = 0.3;
+                let x = d.bx, y = d.by, scale = 1, alpha = 0.35;
 
                 if (inRange) {
                     const t = dist / cfg.impactRadius;
                     const inf = smoothstep(1 - t) * decay;
                     if (cfg.enableRevolve) {
                         // Orbital radius scales with distance from cursor edge
-                        const orbitR = (1 - t) * cfg.dotSpacing * 0.7 * inf;
+                        const orbitR = (1 - t) * cfg.dotSpacing * 0.75 * inf;
                         // Current angle along this dot's orbit
                         const theta = globalAngle * d.speedMult + d.phase;
                         // 3-D orbit: parametric ellipse in a tilted plane
@@ -193,11 +193,18 @@
                         // Depth cue: dots "behind" the plane are slightly smaller and dimmer
                         const depthScale = 0.75 + 0.25 * ((lz + 1) * 0.5); // 0.75 - 1.0
                         scale = (1 + (cfg.scaleOnHover - 1) * inf) * depthScale;
-                        alpha = (0.3 + 0.7 * inf) * depthScale;
+                        alpha = (0.35 + 0.65 * inf) * depthScale;
                     } else {
                         scale = 1 + (cfg.scaleOnHover - 1) * inf;
-                        alpha = 0.3 + 0.7 * inf;
+                        alpha = 0.35 + 0.65 * inf;
                     }
+
+                    // Subtle neon glow for active dots in the cursor orbit
+                    ctx.shadowColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${0.6 * inf})`;
+                    ctx.shadowBlur = 8 * inf;
+                } else {
+                    ctx.shadowColor = 'transparent';
+                    ctx.shadowBlur = 0;
                 }
 
                 const r = (cfg.dotSize / 2) * scale;
