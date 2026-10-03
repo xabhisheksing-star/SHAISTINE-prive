@@ -60,9 +60,9 @@ public class StaticServer {
             HttpListenerRequest req = ctx.Request;
             HttpListenerResponse res = ctx.Response;
 
-            res.Headers["Access-Control-Allow-Origin"] = "*";
-            res.Headers["Access-Control-Allow-Methods"] = "GET, HEAD, OPTIONS";
-            res.Headers["Cache-Control"] = "public, max-age=3600";
+            res.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            res.Headers["Pragma"] = "no-cache";
+            res.Headers["Expires"] = "0";
 
             if (req.HttpMethod == "OPTIONS") {
                 res.StatusCode = 200;

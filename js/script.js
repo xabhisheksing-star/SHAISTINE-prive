@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. CONFIGURATION & STATE
     // =========================================================================
     const TOTAL_FRAMES = 240;
-    const FRAME_DIR = 'hero section';
+    const FRAME_DIR = 'Black hero';
     const FRAME_PREFIX = 'ezgif-frame-';
+    const FRAME_START_INDEX = 1;
     const FRAME_EXT = '.jpg';
 
     // DOM Canvas & Preloader
@@ -70,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. FRAME PRELOADING & RETRIEVAL
     // =========================================================================
     function getFrameUrl(index) {
-        const paddedNum = String(index + 1).padStart(3, '0');
-        return `${encodeURIComponent(FRAME_DIR)}/${FRAME_PREFIX}${paddedNum}${FRAME_EXT}`;
+        const frameNum = String(index + FRAME_START_INDEX).padStart(3, '0');
+        return `${encodeURIComponent(FRAME_DIR)}/${FRAME_PREFIX}${frameNum}${FRAME_EXT}`;
     }
 
     function preloadFrames() {
@@ -95,17 +96,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Dismiss preloader when initial batch of frames is ready
-                if (loadedCount >= 18 && preloader && !preloader.classList.contains('loaded')) {
-                    if (preloaderText) preloaderText.textContent = "AWAKENING VELVET SENSES...";
+                if (loadedCount >= 16 && preloader && !preloader.classList.contains('loaded')) {
+                    if (preloaderText) preloaderText.textContent = "AWAKENING ROSE GOLD SENSES...";
                     setTimeout(() => {
                         preloader.classList.add('loaded');
                         startFirstArrivalAutoplay();
-                    }, 300);
+                    }, 250);
                 }
             };
 
             img.onerror = () => {
-                // Prevent hang on error
+                // If Black%20hero fails, fallback to normalized directory black_hero
+                if (!img.src.includes('black_hero')) {
+                    const frameNum = String(i + FRAME_START_INDEX).padStart(3, '0');
+                    img.src = `black_hero/${FRAME_PREFIX}${frameNum}${FRAME_EXT}`;
+                    return;
+                }
                 loadedCount++;
                 if (loadedCount >= TOTAL_FRAMES && preloader) {
                     preloader.classList.add('loaded');
@@ -267,6 +273,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (scrollHint) {
             scrollHint.style.opacity = '1';
         }
+
+        // Dynamic header theme: obsidian dark over hero section, ivory light over editorial sections
+        const siteHeader = document.getElementById('siteHeader');
+        if (siteHeader) {
+            if (rawProgress >= 0.88) {
+                siteHeader.classList.add('header-light');
+            } else {
+                siteHeader.classList.remove('header-light');
+            }
+        }
     }
 
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
@@ -325,17 +341,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Phase segmentation across 240 frames
         let activeIndex = 0;
-        let phaseTitle = 'PHASE I: THE VESSEL';
+        let phaseTitle = 'PHASE I: THE DROPLET & RIPPLE';
 
         if (frameIndex < 60) {
             activeIndex = 0;
-            phaseTitle = 'PHASE I: THE VESSEL';
+            phaseTitle = 'PHASE I: THE DROPLET & RIPPLE';
         } else if (frameIndex < 120) {
             activeIndex = 1;
             phaseTitle = 'PHASE II: MICRO-ATOMIZATION';
         } else if (frameIndex < 180) {
             activeIndex = 2;
-            phaseTitle = 'PHASE III: THE GOLDEN SEAL';
+            phaseTitle = 'PHASE III: THE ROSE GOLD FLACON';
         } else {
             activeIndex = 3;
             phaseTitle = 'PHASE IV: RESONANCE ETERNAL';
@@ -1032,13 +1048,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     const grad = mistCtx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-                    // Golden champagne core
-                    grad.addColorStop(0, `rgba(255, 236, 179, ${p.alpha * 0.95})`);
-                    // Radiant gold vapor
-                    grad.addColorStop(0.3, `rgba(212, 175, 55, ${p.alpha * 0.7})`);
-                    // Foggy mist dispersion edge
-                    grad.addColorStop(0.7, `rgba(197, 168, 128, ${p.alpha * 0.25})`);
-                    grad.addColorStop(1, 'rgba(197, 168, 128, 0)');
+                    // Rose gold soft blush core
+                    grad.addColorStop(0, `rgba(255, 230, 235, ${p.alpha * 0.95})`);
+                    // Radiant rose gold vapor
+                    grad.addColorStop(0.3, `rgba(224, 140, 155, ${p.alpha * 0.7})`);
+                    // Foggy rose gold mist dispersion edge
+                    grad.addColorStop(0.7, `rgba(180, 95, 110, ${p.alpha * 0.25})`);
+                    grad.addColorStop(1, 'rgba(180, 95, 110, 0)');
 
                     mistCtx.fillStyle = grad;
                     mistCtx.beginPath();
