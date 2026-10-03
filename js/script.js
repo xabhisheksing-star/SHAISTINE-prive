@@ -94,13 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     isInitialRenderDone = true;
                 }
 
-                // Dismiss preloader when initial batch of 25 frames is ready
-                if (loadedCount >= 25 && preloader && !preloader.classList.contains('loaded')) {
-                    if (preloaderText) preloaderText.textContent = "ACTIVATING VELVET SENSES...";
+                // Dismiss preloader when initial batch of frames is ready
+                if (loadedCount >= 18 && preloader && !preloader.classList.contains('loaded')) {
+                    if (preloaderText) preloaderText.textContent = "AWAKENING VELVET SENSES...";
                     setTimeout(() => {
                         preloader.classList.add('loaded');
                         startFirstArrivalAutoplay();
-                    }, 400);
+                    }, 300);
                 }
             };
 
@@ -109,9 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadedCount++;
                 if (loadedCount >= TOTAL_FRAMES && preloader) {
                     preloader.classList.add('loaded');
+                    startFirstArrivalAutoplay();
                 }
             };
         }
+
+        // Safety fallback: ensure preloader dismisses and autoplay starts reliably
+        setTimeout(() => {
+            if (preloader && !preloader.classList.contains('loaded')) {
+                preloader.classList.add('loaded');
+            }
+            startFirstArrivalAutoplay();
+        }, 1200);
     }
 
     // =========================================================================
@@ -170,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgW = img.naturalWidth || 1920;
         const imgH = img.naturalHeight || 1080;
 
-        // Aspect ratio cover calculation
+        // Aspect ratio cover calculation (fills the hero section edge-to-edge)
         const scale = Math.max(canvasW / imgW, canvasH / imgH);
         const drawW = imgW * scale;
         const drawH = imgH * scale;
@@ -179,45 +188,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ctx.clearRect(0, 0, canvasW, canvasH);
         ctx.drawImage(img, drawX, drawY, drawW, drawH);
-
-        // Seamlessly isolate the bottle & spray mist:
-        // Mask out the surrounding props (left stone slab, right boulder, floor)
-        // with a precision feathering vignette so ONLY the perfume bottle floats
-        ctx.save();
-        ctx.globalCompositeOperation = 'destination-in';
-        
-        const centerX = drawX + drawW * 0.52;
-        const centerY = drawY + drawH * 0.50;
-        const radiusX = drawW * 0.29;
-        const radiusY = drawH * 0.38;
-
-        ctx.translate(centerX, centerY);
-        ctx.scale(1, radiusY / radiusX);
-
-        const maskGrad = ctx.createRadialGradient(0, 0, radiusX * 0.50, 0, 0, radiusX);
-        maskGrad.addColorStop(0, 'rgba(0, 0, 0, 1)');
-        maskGrad.addColorStop(0.70, 'rgba(0, 0, 0, 0.98)');
-        maskGrad.addColorStop(0.88, 'rgba(0, 0, 0, 0.55)');
-        maskGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = maskGrad;
-        ctx.beginPath();
-        ctx.arc(0, 0, radiusX, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
     }
 
     // =========================================================================
     // 4. SCROLL INTERPOLATION & LOOP MECHANICS
     // =========================================================================
+    let autoplayFinishedAtEnd = false;
+
     function updateScrollProgress() {
-        if (!scrollTrack || isAutoPlaying) return;
+        if (!scrollTrack) return;
 
         const rect = scrollTrack.getBoundingClientRect();
         const scrollDistance = scrollTrack.offsetHeight - window.innerHeight;
         const currentScrolled = -rect.top;
 
         if (scrollDistance <= 0) return;
+
+        // If user interrupts autoplay by scrolling near the top, stop and start from over
+        if (isAutoPlaying) {
+            stopAutoPlay();
+            if (currentScrolled < 150) {
+                currentFrameFloat = 0;
+                targetFrame = 0;
+                drawFrame(0);
+            }
+        }
+
+        // After the ending of autoplay video, video starts from over when scrolling
+        if (autoplayFinishedAtEnd) {
+            currentFrameFloat = 0;
+            targetFrame = 0;
+            drawFrame(0);
+            autoplayFinishedAtEnd = false;
+        }
 
         // Calculate progress along track
         let progress = currentScrolled / scrollDistance;
@@ -254,34 +257,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Mist sound synthesis update
         updateAudioSwell(rawProgress);
 
-        // Fade out hero intro typography so ONLY the bottle animation is visible when scrolling
+        // Text does NOT fade away when scrolling
         if (heroIntro) {
-            if (rawProgress > 0.03) {
-                heroIntro.style.opacity = '0';
-                heroIntro.style.pointerEvents = 'none';
-            } else {
-                heroIntro.style.opacity = '1';
-                heroIntro.style.pointerEvents = 'auto';
-            }
-            heroIntro.style.transform = `translateY(${-rawProgress * 28}px)`;
+            heroIntro.style.opacity = '1';
+            heroIntro.style.pointerEvents = 'auto';
+            heroIntro.style.transform = `translateY(${-rawProgress * 24}px)`;
         }
 
         if (scrollHint) {
-            if (rawProgress > 0.02 || currentScrolled > 40) {
-                scrollHint.style.opacity = '0';
-            } else {
-                scrollHint.style.opacity = '1';
-            }
-        }
-
-        // Dynamic header theme: dark obsidian over hero bottle animation, ivory light over editorial sections
-        const siteHeader = document.getElementById('siteHeader');
-        if (siteHeader) {
-            if (progress >= 0.92) {
-                siteHeader.classList.add('header-light');
-            } else {
-                siteHeader.classList.remove('header-light');
-            }
+            scrollHint.style.opacity = '1';
         }
     }
 
@@ -291,9 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. SMOOTH PHYSICS & RENDER LOOP (LERP DAMPING)
     // =========================================================================
     function renderLoop() {
-        // Liquid inertia lerp damping factor
-        const lerpFactor = 0.15;
-
         if (isAutoPlaying) {
             currentFrameFloat = targetFrame;
         } else {
@@ -309,6 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Speed up scroll up animation with an ultra-responsive lerp factor (0.75 vs 0.30)
+            // diff < 0 indicates scrolling up: fast 0.75 factor; scrolling down: 0.30 factor
+            const lerpFactor = diff < 0 ? 0.75 : 0.30;
             currentFrameFloat += diff * lerpFactor;
 
             if (loopMode === 'infinite') {
@@ -496,6 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     drawFrame(TOTAL_FRAMES - 1);
                     updateHUDAndOverlays(TOTAL_FRAMES - 1, 1.0);
                     stopAutoPlay();
+                    autoplayFinishedAtEnd = true;
                     return;
                 }
             } else {

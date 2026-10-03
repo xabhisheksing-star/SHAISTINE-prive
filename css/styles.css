@@ -274,17 +274,18 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(10, 10, 10, 0.82);
+    background: rgba(255, 255, 255, 0.90);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(184, 144, 71, 0.25);
+    border-bottom: 1px solid rgba(184, 144, 71, 0.22);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .site-header.header-light {
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.96);
     border-bottom: 1px solid rgba(184, 144, 71, 0.2);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .header-container {
@@ -306,13 +307,9 @@ body {
     font-family: var(--font-serif);
     font-size: 18px;
     letter-spacing: 0.3em;
-    color: #ffffff;
+    color: var(--text-dark);
     font-weight: 600;
     transition: color 0.3s ease;
-}
-
-.site-header.header-light .brand-title {
-    color: var(--text-dark);
 }
 
 .brand-logo:hover .brand-title {
@@ -322,7 +319,7 @@ body {
 .brand-tagline {
     font-size: 8.5px;
     letter-spacing: 0.35em;
-    color: var(--gold);
+    color: var(--gold-deep);
     margin-top: 2px;
 }
 
@@ -333,7 +330,7 @@ body {
 }
 
 .nav-link {
-    color: rgba(240, 240, 240, 0.82);
+    color: rgba(24, 20, 18, 0.85);
     text-decoration: none;
     font-size: 11.5px;
     font-weight: 500;
@@ -341,10 +338,6 @@ body {
     position: relative;
     padding: 6px 0;
     transition: color 0.3s ease;
-}
-
-.site-header.header-light .nav-link {
-    color: rgba(20, 20, 20, 0.78);
 }
 
 .nav-link:hover,
@@ -378,9 +371,9 @@ body {
 }
 
 .action-btn {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(184, 144, 71, 0.35);
-    color: #ffffff;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(184, 144, 71, 0.32);
+    color: var(--text-dark);
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 10.5px;
@@ -392,51 +385,36 @@ body {
     transition: all 0.3s ease;
 }
 
-.site-header.header-light .action-btn {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: rgba(184, 144, 71, 0.28);
-    color: var(--text-dark);
-}
-
 .action-btn:hover {
-    background: rgba(184, 144, 71, 0.2);
+    background: rgba(184, 144, 71, 0.14);
     border-color: var(--gold);
-    color: var(--gold-light);
-}
-
-.site-header.header-light .action-btn:hover {
-    background: rgba(184, 144, 71, 0.12);
     color: var(--gold-deep);
 }
 
 .btn-gold-pill {
-    background: linear-gradient(135deg, var(--gold-bright), var(--gold-deep));
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
     border: 1px solid var(--gold);
-    color: #111111;
+    color: #ffffff;
     font-weight: 600;
 }
 
 .btn-gold-pill:hover {
-    background: #ffffff;
-    border-color: #ffffff;
-    color: #111111;
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
 }
 
 .cart-btn {
     position: relative;
     background: transparent;
     border: none;
-    color: #ffffff;
+    color: var(--text-dark);
     cursor: pointer;
     padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: color 0.3s ease;
-}
-
-.site-header.header-light .cart-btn {
-    color: var(--text-dark);
 }
 
 .cart-btn:hover {
@@ -547,10 +525,9 @@ body {
    ========================================================================== */
 .scroll-track {
     position: relative;
-    height: 550vh;
-    /* Deep obsidian luxury stage blending seamlessly with the fragrance bottle */
-    background: #080808;
-    background: linear-gradient(to bottom, #080808 0%, #080808 88%, var(--bg-white) 100%);
+    height: 240vh;
+    background: #dfd7d0;
+    background: linear-gradient(to bottom, #dfd7d0 0%, #dfd7d0 85%, var(--bg-white) 100%);
 }
 
 .sticky-canvas-container {
@@ -562,16 +539,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #080808;
+    background: #dfd7d0;
 }
 
-/* Seamless 3D Stage for isolated perfume flacon animation */
+/* Full-Bleed 3D Stage filling the entire hero section */
 .canvas-3d-stage {
     position: relative;
     width: 100%;
     height: 100%;
-    max-width: 1440px;
-    max-height: 90vh;
+    max-width: 100%;
+    max-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -579,7 +556,7 @@ body {
     background: transparent;
     border: none;
     box-shadow: none;
-    overflow: visible;
+    overflow: hidden;
     z-index: 4;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -601,7 +578,7 @@ body {
     width: 100%;
     height: 100%;
     display: block;
-    object-fit: contain;
+    object-fit: cover;
     pointer-events: none;
     z-index: 1;
 }
@@ -610,41 +587,49 @@ body {
 .bottle-hover-zone {
     position: absolute;
     top: 15%;
-    left: 36%;
-    width: 44%;
+    left: 32%;
+    width: 36%;
     height: 75%;
     z-index: 11;
     pointer-events: auto;
 }
 
-/* Hero Typography Overlay (Minimal, fades out as user scrolls) */
+/* Hero Typography Overlay (Permanently visible, elegant subtle parallax drift) */
 .hero-intro-overlay {
     position: absolute;
     top: 18%;
     left: 7%;
-    max-width: 420px;
+    max-width: 440px;
     z-index: 10;
-    pointer-events: none;
-    transition: opacity 0.4s var(--transition-smooth), transform 0.4s var(--transition-smooth);
+    pointer-events: auto;
+    opacity: 1 !important;
+    transition: transform 0.4s var(--transition-smooth);
 }
 
 .hero-main-title {
     font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 3.8vw, 3.6rem);
-    color: #ffffff;
-    line-height: 1.06;
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    color: #141210;
+    line-height: 1.05;
     margin-bottom: 12px;
     letter-spacing: 0.02em;
     font-weight: 500;
-    text-shadow: 0 4px 25px rgba(0, 0, 0, 0.7);
+    text-shadow: 0 2px 25px rgba(255, 255, 255, 0.85);
 }
 
 .hero-desc {
-    font-size: 14px;
-    color: rgba(240, 240, 240, 0.72);
-    font-weight: 300;
+    font-size: 14.5px;
+    color: rgba(36, 32, 28, 0.88);
+    font-weight: 400;
     line-height: 1.65;
-    max-width: 360px;
+    max-width: 380px;
+    text-shadow: 0 1px 15px rgba(255, 255, 255, 0.7);
+}
+
+.hero-intro-overlay .gold-subtitle {
+    color: var(--gold-deep);
+    font-weight: 600;
+    text-shadow: 0 1px 10px rgba(255, 255, 255, 0.8);
 }
 
 .hero-title-divider {
@@ -654,7 +639,7 @@ body {
     margin-top: 16px;
 }
 
-/* Animated Scroll Indicator */
+/* Animated Scroll Indicator (Permanently visible) */
 .scroll-hint {
     position: absolute;
     bottom: 28px;
@@ -666,23 +651,26 @@ body {
     gap: 8px;
     z-index: 15;
     pointer-events: none;
+    opacity: 1 !important;
     transition: opacity 0.4s ease;
 }
 
 .hint-text {
     font-size: 9.5px;
     letter-spacing: 0.28em;
-    color: var(--gold-light);
-    font-weight: 500;
+    color: var(--gold-deep);
+    font-weight: 600;
+    text-shadow: 0 1px 10px rgba(255, 255, 255, 0.8);
 }
 
 .mouse-icon {
     width: 18px;
     height: 28px;
-    border: 1.5px solid rgba(212, 175, 55, 0.6);
+    border: 1.5px solid rgba(184, 144, 71, 0.7);
     border-radius: 10px;
     position: relative;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.65);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 
 .wheel-dot {
@@ -1609,9 +1597,9 @@ body {
     }
 
     .canvas-3d-stage {
-        width: min(720px, 92vw);
-        max-height: min(44vh, 340px);
-        margin-top: 40px;
+        width: 100%;
+        max-height: 100%;
+        margin-top: 0;
     }
 
     .products-grid {
@@ -1648,9 +1636,9 @@ body {
     }
 
     .canvas-3d-stage {
-        width: 96vw;
-        max-height: min(38vh, 270px);
-        margin-top: 55px;
+        width: 100%;
+        max-height: 100%;
+        margin-top: 0;
     }
 
     .desktop-nav {

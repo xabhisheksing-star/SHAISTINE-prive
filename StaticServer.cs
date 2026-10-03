@@ -98,7 +98,9 @@ public class StaticServer {
             byte[] bytes = File.ReadAllBytes(fullPath);
             res.ContentLength64 = bytes.Length;
             res.StatusCode = 200;
-            res.OutputStream.Write(bytes, 0, bytes.Length);
+            if (req.HttpMethod != "HEAD") {
+                res.OutputStream.Write(bytes, 0, bytes.Length);
+            }
             res.Close();
         } catch {
             try {
