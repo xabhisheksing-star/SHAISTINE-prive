@@ -768,15 +768,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         let total = 0;
+        let hasInquireItems = false;
         cartItemsContainer.innerHTML = window.cart.map((item, idx) => {
-            total += item.price * item.quantity;
+            const isNumericPrice = typeof item.price === 'number' && item.price > 0;
+            if (isNumericPrice) {
+                total += item.price * item.quantity;
+            } else {
+                hasInquireItems = true;
+            }
+
+            const priceDisplay = isNumericPrice 
+                ? `$${item.price.toFixed(2)} &times; ${item.quantity}` 
+                : `<span style="color: var(--rosegold); font-size: 11px; letter-spacing: 0.1em;">PRICE UPON REQUEST</span> &times; ${item.quantity}`;
+
             return `
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <img src="${item.image}" alt="${item.name}" class="cart-item-thumb">
                         <div>
                             <h4 class="cart-item-title font-editorial">${item.name}</h4>
-                            <p class="cart-item-price">$${item.price} &times; ${item.quantity}</p>
+                            <p class="cart-item-price">${priceDisplay}</p>
+                            <span style="font-size: 9px; color: var(--text-dim); letter-spacing: 0.12em; display:block; margin-top:2px;">${item.size || '10 ml'}</span>
                         </div>
                     </div>
                     <div class="cart-qty-ctrl">
@@ -788,15 +800,24 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }).join('');
 
-        if (cartSubtotal) cartSubtotal.textContent = `$${total.toFixed(2)}`;
+        if (cartSubtotal) {
+            if (total > 0 && hasInquireItems) {
+                cartSubtotal.textContent = `$${total.toFixed(2)} (+ Allocation Requests)`;
+            } else if (total > 0) {
+                cartSubtotal.textContent = `$${total.toFixed(2)}`;
+            } else {
+                cartSubtotal.textContent = 'Price Upon Request';
+            }
+        }
     }
 
-    window.addToBag = function(name, price, image) {
+    window.addToBag = function(name, price, image, size = '10 ml') {
         const existing = window.cart.find(item => item.name === name);
         if (existing) {
             existing.quantity++;
         } else {
-            window.cart.push({ name, price, image, quantity: 1 });
+            const numericPrice = (typeof price === 'number' && price > 0) ? price : null;
+            window.cart.push({ name, price: numericPrice, image, size, quantity: 1 });
         }
         updateCartUI();
         openCart();
@@ -842,7 +863,573 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartUI();
 
     // =========================================================================
-    // 13. SCENT CONSULTATION QUIZ MODAL
+    // 13. SIGNATURE SCENTS (10 ML) PRODUCTS DATABASE (20 FRAGRANCES)
+    // =========================================================================
+    const SIGNATURE_PRODUCTS = [
+        // Women (8)
+        {
+            id: 'shaistine',
+            name: 'Shaistine',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: true,
+            inspiredBy: null,
+            tagline: 'Maison Signature Scent',
+            desc: 'The pinnacle eponymous creation of Maison Shaïstine Privé. A radiant, bespoke oil formulated with rare botanical extracts.',
+            image: 'assets/shaistine.jpg',
+            price: null,
+            preference: 'signature'
+        },
+        {
+            id: 'blaire',
+            name: 'Blaïre',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: true,
+            inspiredBy: null,
+            tagline: 'Maison Signature Scent',
+            desc: 'An enchanting, velvety signature formulation crafted for intimate presence and lingering elegance.',
+            image: 'assets/blaire.jpg',
+            price: null,
+            preference: 'signature'
+        },
+        {
+            id: 'tinaelle',
+            name: 'Tinaëlle',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: true,
+            inspiredBy: null,
+            tagline: 'Maison Signature Scent',
+            desc: 'A pure, crystalline essence of grace and delicate warmth, hand-bottled in small seasonal batches.',
+            image: 'assets/tinaelle.jpg',
+            price: null,
+            preference: 'signature'
+        },
+        {
+            id: 'veranche',
+            name: 'Véranché',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Chanel Chance',
+            tagline: 'Inspired by Chanel Chance',
+            desc: 'A sparkling, unpredictable floral-fresh sillage that harmonizes spontaneous radiance with refined depth.',
+            image: 'assets/veranche.jpg',
+            price: null,
+            preference: 'floral'
+        },
+        {
+            id: 'yaraistine',
+            name: 'Yaraistine',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Lattafa Yara Pink',
+            tagline: 'Inspired by Lattafa Yara Pink',
+            desc: 'A velvety, sweet gourmand aura featuring creamy tropical softness and delicate powdery elegance.',
+            image: 'assets/yaraistine.jpg',
+            price: null,
+            preference: 'gourmand'
+        },
+        {
+            id: 'evasion',
+            name: 'Évasion',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Libre by Yves Saint Laurent',
+            tagline: 'Inspired by Libre by Yves Saint Laurent',
+            desc: 'A daring, sensual tension between burning French lavender and provocative Moroccan orange blossom warmth.',
+            image: 'assets/evasion.jpg',
+            price: null,
+            preference: 'floral'
+        },
+        {
+            id: 'desire',
+            name: 'Désire',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Libre Intense by Yves Saint Laurent',
+            tagline: 'Inspired by Libre Intense by Yves Saint Laurent',
+            desc: 'An incandescent, smoldering amber-floral depth enhanced with rich glowing vanilla orchid nuances.',
+            image: 'assets/desire.jpg',
+            price: null,
+            preference: 'amber'
+        },
+        {
+            id: 'guimauvette',
+            name: 'Guimauvette',
+            category: 'Women',
+            gender: 'women',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Kayali Boujee Marshmallow',
+            tagline: 'Inspired by Kayali Boujee Marshmallow',
+            desc: 'An opulent, fluffy confection of spun sugar, whipped marshmallow velvet, and delicate pink blossoms.',
+            image: 'assets/guimauvette.jpg',
+            price: null,
+            preference: 'gourmand'
+        },
+
+        // Men (12)
+        {
+            id: 'valleshay',
+            name: 'ValléShay',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Valaya',
+            tagline: 'Inspired by Valaya',
+            desc: 'A clean, radiant cocoon of pure white cotton, crystalline musk, and sheer luminous freshness.',
+            image: 'assets/valleshay.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'duaprinve',
+            name: 'Duaprinve',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Prada Candy',
+            tagline: 'Inspired by Prada Candy',
+            desc: 'An addictive explosion of pure caramel indulgence enveloped in powdery silken musks.',
+            image: 'assets/duaprinve.jpg',
+            price: null,
+            preference: 'gourmand'
+        },
+        {
+            id: 'lumieretine-luxe',
+            name: 'LumièreTine Luxe',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Gentle Fluidity Silver',
+            tagline: 'Inspired by Gentle Fluidity Silver',
+            desc: 'A vibrant, metallic freshness powered by crisp juniper berry, spicy coriander, and clean woody ambers.',
+            image: 'assets/lumieretine.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'armanthere',
+            name: 'Armantheré',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Stronger With You Intensely by Armani',
+            tagline: 'Inspired by Stronger With You Intensely by Armani',
+            desc: 'A vibrant spicy warmth fusing aged pink pepper, candied chestnut, and rich ambery bourbon.',
+            image: 'assets/armanthere.jpg',
+            price: null,
+            preference: 'amber'
+        },
+        {
+            id: 'aurestine-noir',
+            name: 'Aürestine Noir',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Lacoste White',
+            tagline: 'Inspired by Lacoste White',
+            desc: 'Clean, crisp, and effortlessly masculine with luminous grapefruit, cardamom, and soft cedarwood.',
+            image: 'assets/aurestine-noir.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'bleush',
+            name: 'Bleush',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Bleu de Chanel',
+            tagline: 'Inspired by Bleu de Chanel',
+            desc: 'A timeless aromatic-woody statement blending brisk Mediterranean citrus, crisp mint, and dry New Caledonian sandalwood.',
+            image: 'assets/bleush.jpg',
+            price: null,
+            preference: 'woody'
+        },
+        {
+            id: 'sharaia',
+            name: 'ShaRaïa',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Invictus by Rabanne',
+            tagline: 'Inspired by Invictus by Rabanne',
+            desc: 'A heroic clash of marine vitality and triumphant bay leaf over magnetic ambergris warmth.',
+            image: 'assets/sharaia.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'imagination-lv',
+            name: 'Imagination LV',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Rêverie',
+            tagline: 'Inspired by Rêverie',
+            desc: 'An elevated, citrusy and sparkling black tea infusion elevated with smoky guaiac and refined ginger.',
+            image: 'assets/imagination-lv.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'dejour',
+            name: 'Dejour',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Sauvage by Dior',
+            tagline: 'Inspired by Sauvage by Dior',
+            desc: 'Raw, noble freshness marked by peppery Calabrian bergamot and radiant ambroxan over mineral earth.',
+            image: 'assets/dejour.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'stroem',
+            name: 'Stroem',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Acqua di Giò',
+            tagline: 'Inspired by Acqua di Giò',
+            desc: 'The pure, invigorating spirit of sea spray and Mediterranean sun, anchored with cedar and mineral moss.',
+            image: 'assets/stroem.jpg',
+            price: null,
+            preference: 'fresh'
+        },
+        {
+            id: 'cristevus',
+            name: 'Cristévus',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Aventus Absolu',
+            tagline: 'Inspired by Aventus Absolu',
+            desc: 'An intense, dark chypre masterpiece combining smoky birch, juicy bergamot, and rich spiced patchouli.',
+            image: 'assets/cristevus.jpg',
+            price: null,
+            preference: 'woody'
+        },
+        {
+            id: 'orvel',
+            name: 'Orvél',
+            category: 'Men',
+            gender: 'men',
+            size: '10 ml',
+            concentration: '100% Concentrated Oil',
+            isSignatureOriginal: false,
+            inspiredBy: 'Orphéon by Diptyque',
+            tagline: 'Inspired by Orphéon by Diptyque',
+            desc: 'An atmospheric, bohemian harmony of warm tonka bean, cedarwood, and delicate juniper berries in tobacco haze.',
+            image: 'assets/orvel.jpg',
+            price: null,
+            preference: 'woody'
+        }
+    ];
+
+    // Helper to generate luxury product card HTML
+    function createProductCardHTML(item) {
+        const badgeText = item.isSignatureOriginal ? 'SIGNATURE SCENT' : `${item.category.toUpperCase()} · 10 ML`;
+        const inspirationHTML = item.inspiredBy 
+            ? `<p class="product-tagline" style="color: var(--rosegold); font-size: 11px;">Inspired by ${item.inspiredBy}</p>`
+            : `<p class="product-tagline" style="color: var(--rosegold); font-size: 11px;">Maison Signature Scent</p>`;
+
+        return `
+            <div class="product-card glass-panel reveal-up product-card-clickable" onclick="openProductDetail('${item.id}', event)">
+                <div class="product-badge">${badgeText}</div>
+                <div class="product-image-container">
+                    <img src="${item.image}" alt="${item.name} 10 ml Concentrated Oil" class="product-img" loading="lazy">
+                </div>
+                <div class="product-details">
+                    <span class="product-volume">${item.size} · 100% CONCENTRATED OIL · ${item.category.toUpperCase()}</span>
+                    <h3 class="product-name font-editorial">${item.name}</h3>
+                    ${inspirationHTML}
+                    <p class="product-notes" style="font-size: 11.5px; line-height: 1.5; color: var(--text-muted); margin-bottom: 16px;">${item.desc}</p>
+                    <div class="product-price-row">
+                        <span class="product-price" style="font-size: 13px; letter-spacing: 0.12em; color: var(--rosegold-light);">PRICE UPON REQUEST</span>
+                        <div class="card-actions-row" onclick="event.stopPropagation()">
+                            <button class="btn-detail-link" onclick="openProductDetail('${item.id}', event)">
+                                DETAILS
+                            </button>
+                            <button class="btn-buy" onclick="addToBag('${item.name}', null, '${item.image}', '${item.size}')">
+                                ADD TO BAG
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    // =========================================================================
+    // 14. COLLECTIONS SECTION FILTERING & SWITCHING
+    // =========================================================================
+    let currentCollectionGender = 'all';
+
+    function renderSignatureCollection(gender = 'all') {
+        const grid = document.getElementById('signatureProductsGrid');
+        if (!grid) return;
+
+        currentCollectionGender = gender;
+        const filtered = SIGNATURE_PRODUCTS.filter(item => {
+            if (gender === 'all') return true;
+            return item.gender === gender;
+        });
+
+        grid.innerHTML = filtered.map(item => createProductCardHTML(item)).join('');
+        
+        grid.querySelectorAll('.reveal-up').forEach(el => {
+            setTimeout(() => el.classList.add('active'), 50);
+        });
+    }
+
+    window.switchCollectionTab = function(tabName) {
+        const btnSignature = document.getElementById('tabSignatureScents');
+        const btnPrive = document.getElementById('tabPriveHeritage');
+        const gridSignature = document.getElementById('signatureProductsGrid');
+        const filterBar = document.getElementById('signatureFilterBar');
+        const gridPrive = document.getElementById('priveProductsGrid');
+
+        if (tabName === 'signature') {
+            if (btnSignature) btnSignature.classList.add('active');
+            if (btnPrive) btnPrive.classList.remove('active');
+            if (gridSignature) gridSignature.style.display = 'grid';
+            if (filterBar) filterBar.style.display = 'flex';
+            if (gridPrive) gridPrive.style.display = 'none';
+        } else {
+            if (btnSignature) btnSignature.classList.remove('active');
+            if (btnPrive) btnPrive.classList.add('active');
+            if (gridSignature) gridSignature.style.display = 'none';
+            if (filterBar) filterBar.style.display = 'none';
+            if (gridPrive) gridPrive.style.display = 'grid';
+        }
+    };
+
+    window.filterCollectionGender = function(gender) {
+        document.querySelectorAll('#signatureFilterBar .gender-filter-btn').forEach(btn => {
+            if (btn.getAttribute('data-gender') === gender) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        renderSignatureCollection(gender);
+    };
+
+    // =========================================================================
+    // 15. FIND MY SCENTS DYNAMIC DIAGNOSTIC & FILTERING
+    // =========================================================================
+    let scentFilters = {
+        gender: 'all',
+        preference: 'all',
+        search: ''
+    };
+
+    function renderFindScents() {
+        const grid = document.getElementById('findScentsGrid');
+        const counter = document.getElementById('finderCountBadge');
+        if (!grid) return;
+
+        const filtered = SIGNATURE_PRODUCTS.filter(item => {
+            if (scentFilters.gender !== 'all' && item.gender !== scentFilters.gender) {
+                return false;
+            }
+            if (scentFilters.preference !== 'all') {
+                if (scentFilters.preference === 'signature' && !item.isSignatureOriginal) return false;
+                if (scentFilters.preference === 'fresh' && item.preference !== 'fresh') return false;
+                if (scentFilters.preference === 'floral' && item.preference !== 'floral') return false;
+                if (scentFilters.preference === 'gourmand' && item.preference !== 'gourmand') return false;
+                if (scentFilters.preference === 'woody' && item.preference !== 'woody' && item.preference !== 'amber') return false;
+            }
+            if (scentFilters.search.trim() !== '') {
+                const q = scentFilters.search.toLowerCase().trim();
+                const nameMatch = item.name.toLowerCase().includes(q);
+                const inspMatch = item.inspiredBy ? item.inspiredBy.toLowerCase().includes(q) : false;
+                const catMatch = item.category.toLowerCase().includes(q);
+                if (!nameMatch && !inspMatch && !catMatch) return false;
+            }
+            return true;
+        });
+
+        if (counter) {
+            counter.textContent = `MATCHING FRAGRANCES: ${filtered.length}`;
+        }
+
+        if (filtered.length === 0) {
+            grid.innerHTML = `
+                <div class="no-match-box glass-panel reveal-up active">
+                    <h4 class="font-editorial">No Olfactory Matches Found</h4>
+                    <p>Adjust your preference filters or clear your search to discover our bespoke formulations.</p>
+                    <button class="btn-reset-filters" onclick="resetAllScentFilters()">
+                        RESET ALL FILTERS
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        grid.innerHTML = filtered.map(item => createProductCardHTML(item)).join('');
+        grid.querySelectorAll('.reveal-up').forEach(el => {
+            setTimeout(() => el.classList.add('active'), 40);
+        });
+    }
+
+    window.setScentFilter = function(filterType, value) {
+        scentFilters[filterType] = value;
+        document.querySelectorAll(`.scent-pill-btn[data-filter="${filterType}"]`).forEach(btn => {
+            if (btn.getAttribute('data-value') === value) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        renderFindScents();
+    };
+
+    window.handleScentSearch = function(query) {
+        scentFilters.search = query || '';
+        renderFindScents();
+    };
+
+    window.resetAllScentFilters = function() {
+        scentFilters = {
+            gender: 'all',
+            preference: 'all',
+            search: ''
+        };
+        const searchInput = document.getElementById('scentSearchInput');
+        if (searchInput) searchInput.value = '';
+
+        document.querySelectorAll('.scent-pill-btn').forEach(btn => {
+            if (btn.getAttribute('data-value') === 'all') {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        renderFindScents();
+    };
+
+    // =========================================================================
+    // 16. LUXURY PRODUCT DETAIL MODAL
+    // =========================================================================
+    const productDetailModal = document.getElementById('productDetailModal');
+    let currentDetailProduct = null;
+
+    window.openProductDetail = function(id, event) {
+        if (event) event.stopPropagation();
+
+        const product = SIGNATURE_PRODUCTS.find(p => p.id === id);
+        if (!product || !productDetailModal) return;
+
+        currentDetailProduct = product;
+
+        const imgEl = document.getElementById('modalProductImg');
+        const badgeEl = document.getElementById('modalProductBadge');
+        const catEl = document.getElementById('modalProductCategory');
+        const titleEl = document.getElementById('modalProductName');
+        const tagEl = document.getElementById('modalProductTagline');
+        const descEl = document.getElementById('modalProductDesc');
+        const inspBox = document.getElementById('modalInspirationBox');
+        const inspText = document.getElementById('modalInspirationText');
+        const priceEl = document.getElementById('modalProductPrice');
+        const addBtn = document.getElementById('modalAddBtn');
+
+        if (imgEl) {
+            imgEl.src = product.image;
+            imgEl.alt = `${product.name} 10 ml Concentrated Oil`;
+        }
+        if (badgeEl) badgeEl.textContent = `${product.size} · 100% CONCENTRATED OIL`;
+        if (catEl) catEl.textContent = `${product.category.toUpperCase()}'S COLLECTION`;
+        if (titleEl) titleEl.textContent = product.name;
+        if (tagEl) {
+            tagEl.textContent = product.inspiredBy ? `Inspired by ${product.inspiredBy}` : 'Maison Signature Scent';
+        }
+        if (descEl) descEl.textContent = product.desc;
+
+        if (inspBox && inspText) {
+            if (product.inspiredBy) {
+                inspBox.style.display = 'block';
+                inspText.textContent = `Inspired by ${product.inspiredBy}`;
+            } else {
+                inspBox.style.display = 'block';
+                inspText.textContent = 'Exclusive Signature Scent — Original Atelier Formulation';
+            }
+        }
+
+        if (priceEl) priceEl.textContent = 'PRICE UPON REQUEST';
+
+        if (addBtn) {
+            addBtn.onclick = function() {
+                addToBag(product.name, null, product.image, product.size);
+                closeProductDetail();
+            };
+        }
+
+        productDetailModal.classList.remove('hidden');
+    };
+
+    window.closeProductDetail = function() {
+        if (productDetailModal) {
+            productDetailModal.classList.add('hidden');
+        }
+    };
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeProductDetail();
+            const quizModal = document.getElementById('quizModal');
+            if (quizModal) quizModal.classList.add('hidden');
+        }
+    });
+
+    // =========================================================================
+    // 17. SCENT CONSULTATION QUIZ MODAL & FINDER NAVIGATION
     // =========================================================================
     const quizModal = document.getElementById('quizModal');
     const scentQuizBtn = document.getElementById('scentQuizBtn');
@@ -853,9 +1440,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizAddBtn = document.getElementById('quizAddBtn');
     let matchedFragrance = 'Noir & Ivoire';
 
-    if (scentQuizBtn && quizModal) {
-        scentQuizBtn.addEventListener('click', () => {
-            quizModal.classList.remove('hidden');
+    if (scentQuizBtn) {
+        scentQuizBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const findSection = document.getElementById('find-scent');
+            if (findSection) {
+                findSection.scrollIntoView({ behavior: 'smooth' });
+            } else if (quizModal) {
+                quizModal.classList.remove('hidden');
+            }
         });
     }
 
@@ -880,7 +1473,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (matchedFragrance === 'Nocturne') { price = 310; img = 'assets/collection3.jpg'; }
             if (matchedFragrance === 'Aurélia') { price = 260; img = 'assets/collection2.jpg'; }
             if (matchedFragrance === "L'Aura") { price = 240; img = 'assets/collection1.jpg'; }
-            addToBag(matchedFragrance, price, img);
+            addToBag(matchedFragrance, price, img, '50ml');
             if (quizModal) quizModal.classList.add('hidden');
         });
     }
@@ -1202,6 +1795,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     // 19. INITIALIZE
     // =========================================================================
+    renderSignatureCollection('all');
+    renderFindScents();
     preloadFrames();
     resizeCanvas();
     updateScrollProgress();

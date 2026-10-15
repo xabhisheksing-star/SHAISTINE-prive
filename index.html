@@ -36,7 +36,8 @@
             <nav class="desktop-nav">
                 <a href="#experience" class="nav-link active">THE VESSEL</a>
                 <a href="#olfactive" class="nav-link">PYRAMID</a>
-                <a href="#collection" class="nav-link">COLLECTION</a>
+                <a href="#collection" class="nav-link">COLLECTIONS</a>
+                <a href="#find-scent" class="nav-link">FIND MY SCENTS</a>
                 <a href="#philosophy" class="nav-link">MAISON</a>
             </nav>
 
@@ -80,6 +81,7 @@
             <a href="#experience" class="mobile-nav-link">THE VESSEL SCROLL</a>
             <a href="#olfactive" class="mobile-nav-link">OLFACTIVE PYRAMID</a>
             <a href="#collection" class="mobile-nav-link">SIGNATURE COLLECTION</a>
+            <a href="#find-scent" class="mobile-nav-link">FIND MY SCENTS</a>
             <a href="#philosophy" class="mobile-nav-link">PHILOSOPHY & SILLAGE</a>
         </nav>
         <div class="mobile-menu-actions">
@@ -266,16 +268,45 @@
             </div>
         </section>
 
-        <!-- 3. SIGNATURE BESPOKE COLLECTION -->
+        <!-- 3. COLLECTIONS: SIGNATURE SCENTS (10 ML) & HERITAGE PRIVÉ -->
         <section id="collection" class="section collection-section">
             <div class="container">
                 <div class="section-header reveal-up">
-                    <span class="gold-subtitle">HAUTE PARFUMERIE</span>
-                    <h2 class="section-title font-editorial">The Privé Collection</h2>
-                    <p class="section-desc">Numbered flacons poured in small seasonal batches at our Grasse atelier.</p>
+                    <span class="gold-subtitle">HAUTE PARFUMERIE · ATELIER PROVENCE</span>
+                    <h2 class="section-title font-editorial">The Collections</h2>
+                    <p class="section-desc">Explore our new 10 ml Signature Scents concentrated perfume oils alongside our rare heritage private reserve flacons.</p>
                 </div>
 
-                <div class="products-grid">
+                <!-- Collection Switcher Tabs -->
+                <div class="collection-tabs-nav reveal-up" data-delay="50">
+                    <button id="tabSignatureScents" class="collection-tab-btn active" onclick="switchCollectionTab('signature')">
+                        SIGNATURE SCENTS (10 ML)
+                    </button>
+                    <button id="tabPriveHeritage" class="collection-tab-btn" onclick="switchCollectionTab('prive')">
+                        HERITAGE PRIVÉ EXTRAITS
+                    </button>
+                </div>
+
+                <!-- Gender Filter Bar for Signature Scents -->
+                <div id="signatureFilterBar" class="collection-filter-bar reveal-up" data-delay="100">
+                    <button class="gender-filter-btn active" data-gender="all" onclick="filterCollectionGender('all')">
+                        ALL SIGNATURE SCENTS (20)
+                    </button>
+                    <button class="gender-filter-btn" data-gender="women" onclick="filterCollectionGender('women')">
+                        WOMEN (8)
+                    </button>
+                    <button class="gender-filter-btn" data-gender="men" onclick="filterCollectionGender('men')">
+                        MEN (12)
+                    </button>
+                </div>
+
+                <!-- Signature Scents 20-Fragrance Grid (Dynamically Populated & Filtered) -->
+                <div id="signatureProductsGrid" class="products-grid">
+                    <!-- Populated dynamically via JS with all 20 fragrances -->
+                </div>
+
+                <!-- Heritage Privé Collection (Preserved 4 Heritage Flacons) -->
+                <div id="priveProductsGrid" class="products-grid" style="display: none;">
                     <!-- Product 1: Noir & Ivoire -->
                     <div class="product-card glass-panel reveal-up" data-delay="100">
                         <div class="product-badge">HERO EXTRAIT</div>
@@ -289,9 +320,11 @@
                             <p class="product-notes">Calabrian Bergamot · Florentine Orris · Bourbon Amber</p>
                             <div class="product-price-row">
                                 <span class="product-price">$285.00</span>
-                                <button class="btn-buy" onclick="addToBag('Noir & Ivoire', 285, 'assets/featured.jpg')">
-                                    ADD TO BAG
-                                </button>
+                                <div class="card-actions-row">
+                                    <button class="btn-buy" onclick="addToBag('Noir & Ivoire', 285, 'assets/featured.jpg', '50ml')">
+                                        ADD TO BAG
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -309,9 +342,11 @@
                             <p class="product-notes">Crushed Black Pepper · Birch Tar · Rare Patchouli</p>
                             <div class="product-price-row">
                                 <span class="product-price">$310.00</span>
-                                <button class="btn-buy" onclick="addToBag('Nocturne', 310, 'assets/collection3.jpg')">
-                                    ADD TO BAG
-                                </button>
+                                <div class="card-actions-row">
+                                    <button class="btn-buy" onclick="addToBag('Nocturne', 310, 'assets/collection3.jpg', '100ml')">
+                                        ADD TO BAG
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -329,9 +364,11 @@
                             <p class="product-notes">Solar Neroli · Tonka Bean · French Lavender</p>
                             <div class="product-price-row">
                                 <span class="product-price">$260.00</span>
-                                <button class="btn-buy" onclick="addToBag('Aurélia', 260, 'assets/collection2.jpg')">
-                                    ADD TO BAG
-                                </button>
+                                <div class="card-actions-row">
+                                    <button class="btn-buy" onclick="addToBag('Aurélia', 260, 'assets/collection2.jpg', '100ml')">
+                                        ADD TO BAG
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -349,9 +386,11 @@
                             <p class="product-notes">Sambac Jasmine · Cashmeran · Velvet Musk</p>
                             <div class="product-price-row">
                                 <span class="product-price">$240.00</span>
-                                <button class="btn-buy" onclick="addToBag('L\'Aura', 240, 'assets/collection1.jpg')">
-                                    ADD TO BAG
-                                </button>
+                                <div class="card-actions-row">
+                                    <button class="btn-buy" onclick="addToBag('L\'Aura', 240, 'assets/collection1.jpg', '100ml')">
+                                        ADD TO BAG
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -359,18 +398,86 @@
             </div>
         </section>
 
-        <!-- 4. BESPOKE SCENT FINDER BANNER -->
-        <section class="section quiz-banner-section">
+        <!-- 4. FIND MY SCENTS (INTERACTIVE BESPOKE OLFACTORY DIAGNOSTIC) -->
+        <section id="find-scent" class="section find-scents-section">
             <div class="container">
-                <div class="quiz-banner glass-panel reveal-up">
-                    <div class="quiz-banner-content">
-                        <span class="gold-subtitle">PRIVATE OLFACTORY MATCH</span>
-                        <h2 class="quiz-banner-title font-editorial">Seeking Your Signature Frequency?</h2>
-                        <p class="quiz-banner-desc">Take our three-question sensory diagnostic to align your temperament with one of our rare extraits.</p>
-                        <button class="btn-gold-action" onclick="document.getElementById('quizModal').classList.remove('hidden')">
-                            BEGIN CONSULTATION
+                <div class="section-header reveal-up">
+                    <span class="gold-subtitle">PRIVATE OLFACTORY MATCH</span>
+                    <h2 class="section-title font-editorial">Find My Scents</h2>
+                    <p class="section-desc">Experience an intuitive diagnostic across our 20 signature 10 ml concentrated perfume oils. Filter by gender or scent character to reveal your harmonic frequency.</p>
+                </div>
+
+                <div class="find-scents-card glass-panel reveal-up" data-delay="100">
+                    <div class="scent-filter-row">
+                        <!-- Gender Filter -->
+                        <div class="filter-group">
+                            <span class="filter-group-label">01. Collection / Gender</span>
+                            <div class="filter-pills-wrap">
+                                <button class="scent-pill-btn active" data-filter="gender" data-value="all" onclick="setScentFilter('gender', 'all')">
+                                    ALL (20)
+                                </button>
+                                <button class="scent-pill-btn" data-filter="gender" data-value="women" onclick="setScentFilter('gender', 'women')">
+                                    WOMEN (8)
+                                </button>
+                                <button class="scent-pill-btn" data-filter="gender" data-value="men" onclick="setScentFilter('gender', 'men')">
+                                    MEN (12)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Scent Preference Filter -->
+                        <div class="filter-group">
+                            <span class="filter-group-label">02. Olfactive Preference</span>
+                            <div class="filter-pills-wrap">
+                                <button class="scent-pill-btn active" data-filter="preference" data-value="all" onclick="setScentFilter('preference', 'all')">
+                                    ALL PROFILES
+                                </button>
+                                <button class="scent-pill-btn" data-filter="preference" data-value="signature" onclick="setScentFilter('preference', 'signature')">
+                                    SIGNATURE ORIGINALS
+                                </button>
+                                <button class="scent-pill-btn" data-filter="preference" data-value="fresh" onclick="setScentFilter('preference', 'fresh')">
+                                    FRESH & CITRUS / AQUATIC
+                                </button>
+                                <button class="scent-pill-btn" data-filter="preference" data-value="floral" onclick="setScentFilter('preference', 'floral')">
+                                    WARM & SENSUAL FLORAL
+                                </button>
+                                <button class="scent-pill-btn" data-filter="preference" data-value="gourmand" onclick="setScentFilter('preference', 'gourmand')">
+                                    RICH GOURMAND & SWEET
+                                </button>
+                                <button class="scent-pill-btn" data-filter="preference" data-value="woody" onclick="setScentFilter('preference', 'woody')">
+                                    WOODY & SMOKY / AMBER
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search & Reset Controls -->
+                    <div class="scent-search-reset-row">
+                        <div class="scent-search-box">
+                            <svg class="scent-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="scentSearchInput" class="scent-search-input" placeholder="Search fragrance name or inspiration (e.g., Valaya, Chance, Sauvage, Bleu...)" oninput="handleScentSearch(this.value)">
+                        </div>
+                        <button id="resetScentFiltersBtn" class="btn-reset-filters" onclick="resetAllScentFilters()">
+                            RESET FILTERS
+                        </button>
+                        <button class="btn-gold-action" style="padding: 10px 20px; font-size: 10px;" onclick="document.getElementById('quizModal').classList.remove('hidden')">
+                            SENSORY QUIZ
                         </button>
                     </div>
+                </div>
+
+                <!-- Finder Status Bar -->
+                <div class="finder-status-bar">
+                    <span id="finderCountBadge" class="gold-subtitle" style="margin-bottom: 0;">MATCHING FRAGRANCES: 20</span>
+                    <span style="font-size: 10px; color: var(--text-dim); letter-spacing: 0.14em;">ALL 10 ML CONCENTRATED OILS</span>
+                </div>
+
+                <!-- Dynamic Results Grid -->
+                <div id="findScentsGrid" class="products-grid">
+                    <!-- Populated dynamically via JS -->
                 </div>
             </div>
         </section>
@@ -472,6 +579,44 @@
                     <button id="quizAddBtn" class="btn-gold-action">
                         ADD MATCHED EXTRAIT TO BAG
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="productDetailModal" class="product-modal hidden">
+        <div class="product-modal-backdrop" onclick="closeProductDetail()"></div>
+        <div class="product-modal-content glass-panel">
+            <button class="close-modal-btn" onclick="closeProductDetail()" aria-label="Close product details">&times;</button>
+            <div class="product-modal-grid">
+                <div class="product-modal-media">
+                    <img id="modalProductImg" src="" alt="Fragrance bottle" class="modal-bottle-img">
+                    <div id="modalProductBadge" class="modal-bottle-badge">10 ML · 100% CONCENTRATED OIL</div>
+                </div>
+                <div class="product-modal-info">
+                    <span id="modalProductCategory" class="gold-subtitle">WOMEN'S COLLECTION</span>
+                    <h2 id="modalProductName" class="modal-product-title font-editorial">Shaistine</h2>
+                    <p id="modalProductTagline" class="modal-product-tagline">Maison Signature Scent</p>
+                    <div class="modal-spec-row">
+                        <span class="spec-pill">SIZE: 10 ML</span>
+                        <span class="spec-pill">FORMULATION: 100% CONCENTRATED OIL</span>
+                    </div>
+                    <div class="modal-divider"></div>
+                    <p id="modalProductDesc" class="modal-product-desc"></p>
+                    <div id="modalInspirationBox" class="modal-inspiration-box">
+                        <span class="insp-label">OLFACTIVE INSPIRATION:</span>
+                        <p id="modalInspirationText" class="insp-text"></p>
+                    </div>
+                    <div class="modal-action-row">
+                        <div class="modal-price-wrap">
+                            <span class="modal-price-label">PRICE SPECIFICATION</span>
+                            <span id="modalProductPrice" class="modal-price">PRICE UPON REQUEST</span>
+                        </div>
+                        <button id="modalAddBtn" class="btn-gold-action">
+                            ADD TO BAG
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
