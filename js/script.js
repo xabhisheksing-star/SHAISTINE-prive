@@ -1795,7 +1795,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // =========================================================================
     // 19. INITIALIZE
     // =========================================================================
-    renderSignatureCollection('all');
     renderFindScents();
     preloadFrames();
     resizeCanvas();

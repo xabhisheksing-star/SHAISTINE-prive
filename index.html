@@ -36,7 +36,6 @@
             <nav class="desktop-nav">
                 <a href="#experience" class="nav-link active">THE VESSEL</a>
                 <a href="#olfactive" class="nav-link">PYRAMID</a>
-                <a href="#collection" class="nav-link">COLLECTIONS</a>
                 <a href="#find-scent" class="nav-link">FIND MY SCENTS</a>
                 <a href="#philosophy" class="nav-link">MAISON</a>
             </nav>
@@ -80,7 +79,6 @@
         <nav class="mobile-nav-links">
             <a href="#experience" class="mobile-nav-link">THE VESSEL SCROLL</a>
             <a href="#olfactive" class="mobile-nav-link">OLFACTIVE PYRAMID</a>
-            <a href="#collection" class="mobile-nav-link">SIGNATURE COLLECTION</a>
             <a href="#find-scent" class="mobile-nav-link">FIND MY SCENTS</a>
             <a href="#philosophy" class="mobile-nav-link">PHILOSOPHY & SILLAGE</a>
         </nav>
@@ -268,135 +266,6 @@
             </div>
         </section>
 
-        <!-- 3. COLLECTIONS: SIGNATURE SCENTS (10 ML) & HERITAGE PRIVÉ -->
-        <section id="collection" class="section collection-section">
-            <div class="container">
-                <div class="section-header reveal-up">
-                    <span class="gold-subtitle">HAUTE PARFUMERIE · ATELIER PROVENCE</span>
-                    <h2 class="section-title font-editorial">The Collections</h2>
-                    <p class="section-desc">Explore our new 10 ml Signature Scents concentrated perfume oils alongside our rare heritage private reserve flacons.</p>
-                </div>
-
-                <!-- Collection Switcher Tabs -->
-                <div class="collection-tabs-nav reveal-up" data-delay="50">
-                    <button id="tabSignatureScents" class="collection-tab-btn active" onclick="switchCollectionTab('signature')">
-                        SIGNATURE SCENTS (10 ML)
-                    </button>
-                    <button id="tabPriveHeritage" class="collection-tab-btn" onclick="switchCollectionTab('prive')">
-                        HERITAGE PRIVÉ EXTRAITS
-                    </button>
-                </div>
-
-                <!-- Gender Filter Bar for Signature Scents -->
-                <div id="signatureFilterBar" class="collection-filter-bar reveal-up" data-delay="100">
-                    <button class="gender-filter-btn active" data-gender="all" onclick="filterCollectionGender('all')">
-                        ALL SIGNATURE SCENTS (20)
-                    </button>
-                    <button class="gender-filter-btn" data-gender="women" onclick="filterCollectionGender('women')">
-                        WOMEN (8)
-                    </button>
-                    <button class="gender-filter-btn" data-gender="men" onclick="filterCollectionGender('men')">
-                        MEN (12)
-                    </button>
-                </div>
-
-                <!-- Signature Scents 20-Fragrance Grid (Dynamically Populated & Filtered) -->
-                <div id="signatureProductsGrid" class="products-grid">
-                    <!-- Populated dynamically via JS with all 20 fragrances -->
-                </div>
-
-                <!-- Heritage Privé Collection (Preserved 4 Heritage Flacons) -->
-                <div id="priveProductsGrid" class="products-grid" style="display: none;">
-                    <!-- Product 1: Noir & Ivoire -->
-                    <div class="product-card glass-panel reveal-up" data-delay="100">
-                        <div class="product-badge">HERO EXTRAIT</div>
-                        <div class="product-image-container">
-                            <img src="assets/featured.jpg" alt="Maison Élan Noir & Ivoire" class="product-img" loading="lazy">
-                        </div>
-                        <div class="product-details">
-                            <span class="product-volume">50ml / 1.7 FL. OZ. · 32% CONCENTRATION</span>
-                            <h3 class="product-name font-editorial">Noir & Ivoire</h3>
-                            <p class="product-tagline">Smoked Obsidian & Golden Orris</p>
-                            <p class="product-notes">Calabrian Bergamot · Florentine Orris · Bourbon Amber</p>
-                            <div class="product-price-row">
-                                <span class="product-price">$285.00</span>
-                                <div class="card-actions-row">
-                                    <button class="btn-buy" onclick="addToBag('Noir & Ivoire', 285, 'assets/featured.jpg', '50ml')">
-                                        ADD TO BAG
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 2: Nocturne -->
-                    <div class="product-card glass-panel reveal-up" data-delay="200">
-                        <div class="product-badge">LIMITED VINTAGE</div>
-                        <div class="product-image-container">
-                            <img src="assets/collection3.jpg" alt="Nocturne Eau de Parfum" class="product-img" loading="lazy">
-                        </div>
-                        <div class="product-details">
-                            <span class="product-volume">100ml / 3.4 FL. OZ. · EXTRAIT DE PARFUM</span>
-                            <h3 class="product-name font-editorial">Nocturne</h3>
-                            <p class="product-tagline">Midnight Slate & Omani Frankincense</p>
-                            <p class="product-notes">Crushed Black Pepper · Birch Tar · Rare Patchouli</p>
-                            <div class="product-price-row">
-                                <span class="product-price">$310.00</span>
-                                <div class="card-actions-row">
-                                    <button class="btn-buy" onclick="addToBag('Nocturne', 310, 'assets/collection3.jpg', '100ml')">
-                                        ADD TO BAG
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 3: Aurélia -->
-                    <div class="product-card glass-panel reveal-up" data-delay="300">
-                        <div class="product-badge">GOLDEN HARVEST</div>
-                        <div class="product-image-container">
-                            <img src="assets/collection2.jpg" alt="Aurélia Eau de Parfum" class="product-img" loading="lazy">
-                        </div>
-                        <div class="product-details">
-                            <span class="product-volume">100ml / 3.4 FL. OZ. · EAU DE PARFUM</span>
-                            <h3 class="product-name font-editorial">Aurélia</h3>
-                            <p class="product-tagline">Sun-drenched Sandstone & Wild Honey</p>
-                            <p class="product-notes">Solar Neroli · Tonka Bean · French Lavender</p>
-                            <div class="product-price-row">
-                                <span class="product-price">$260.00</span>
-                                <div class="card-actions-row">
-                                    <button class="btn-buy" onclick="addToBag('Aurélia', 260, 'assets/collection2.jpg', '100ml')">
-                                        ADD TO BAG
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Product 4: L'Aura -->
-                    <div class="product-card glass-panel reveal-up" data-delay="400">
-                        <div class="product-badge">SOLAR RADIANCE</div>
-                        <div class="product-image-container">
-                            <img src="assets/collection1.jpg" alt="L'Aura Eau de Parfum" class="product-img" loading="lazy">
-                        </div>
-                        <div class="product-details">
-                            <span class="product-volume">100ml / 3.4 FL. OZ. · EAU DE PARFUM</span>
-                            <h3 class="product-name font-editorial">L'Aura</h3>
-                            <p class="product-tagline">White Petals & Mineral Ambergris</p>
-                            <p class="product-notes">Sambac Jasmine · Cashmeran · Velvet Musk</p>
-                            <div class="product-price-row">
-                                <span class="product-price">$240.00</span>
-                                <div class="card-actions-row">
-                                    <button class="btn-buy" onclick="addToBag('L\'Aura', 240, 'assets/collection1.jpg', '100ml')">
-                                        ADD TO BAG
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- 4. FIND MY SCENTS (INTERACTIVE BESPOKE OLFACTORY DIAGNOSTIC) -->
         <section id="find-scent" class="section find-scents-section">
@@ -639,7 +508,7 @@
                 <h5 class="footer-heading">THE ATELIER</h5>
                 <a href="#experience">The Vessel Story</a>
                 <a href="#olfactive">Olfactive Pyramid</a>
-                <a href="#collection">Haute Collection</a>
+                <a href="#find-scent">Find My Scents</a>
                 <a href="#philosophy">Private Formulation</a>
             </div>
 
