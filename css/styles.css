@@ -1,47 +1,55 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    SHAÏSTINE PRIVÉ — HAUTE PARFUMERIE & BESPOKE SILLAGE
-   Black & Rose Gold Luxury Aesthetics & 240-Frame Interactive Canvas Engine
+   Black & Royal Gold Luxury Aesthetics & 240-Frame Interactive Canvas Engine
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-    /* Pure Black & Dark Velvet Obsidian Palette */
-    --bg-black: #050405;
-    --bg-obsidian: #090708;
-    --bg-noir: #0e0a0d;
-    --bg-surface: #140e12;
-    --bg-card: rgba(20, 14, 18, 0.85);
-    --bg-card-hover: rgba(28, 19, 24, 0.95);
-    --bg-white: #090708;
-    --bg-cream: #050405;
+    /* Deep Luxury Black & Charcoal Velvet Palette */
+    --bg-black: #050505;
+    --bg-secondary: #0B0B0B;
+    --bg-obsidian: #080808;
+    --bg-noir: #0B0B0B;
+    --bg-surface: #111111;
+    --bg-card: #111111;
+    --bg-card-glass: rgba(17, 17, 17, 0.92);
+    --bg-card-hover: #161616;
+    --bg-white: #0B0B0B;
+    --bg-cream: #050505;
 
-    /* Metallic Rose Gold Palette */
-    --rosegold: #d48c96;
-    --rosegold-light: #f5cfcb;
-    --rosegold-bright: #e89da7;
-    --rosegold-deep: #a85864;
-    --rosegold-glow: rgba(212, 140, 150, 0.28);
-    --rosegold-border: rgba(212, 140, 150, 0.24);
-    --rosegold-border-bright: rgba(232, 157, 167, 0.7);
+    /* Metallic Royal Gold Palette */
+    --gold: #D4AF37;
+    --gold-primary: #D4AF37;
+    --gold-light: #F5D77A;
+    --gold-highlights: #F5D77A;
+    --gold-bright: #F5D77A;
+    --gold-deep: #8C6A20;
+    --gold-antique: #8C6A20;
+    --gold-glow: rgba(212, 175, 55, 0.28);
+    --gold-border: rgba(212, 175, 55, 0.28);
+    --gold-border-bright: rgba(245, 215, 122, 0.65);
 
-    /* Backwards-compatible aliases */
-    --gold: var(--rosegold);
-    --gold-light: var(--rosegold-light);
-    --gold-bright: var(--rosegold-bright);
-    --gold-deep: var(--rosegold-deep);
-    --gold-glow: var(--rosegold-glow);
-    --gold-border: var(--rosegold-border);
-    --gold-border-bright: var(--rosegold-border-bright);
+    /* Backwards-compatible aliases for legacy classes */
+    --rosegold: var(--gold);
+    --rosegold-light: var(--gold-light);
+    --rosegold-bright: var(--gold-bright);
+    --rosegold-deep: var(--gold-deep);
+    --rosegold-glow: var(--gold-glow);
+    --rosegold-border: var(--gold-border);
+    --rosegold-border-bright: var(--gold-border-bright);
 
     /* Luxury High-Contrast Typography on Dark */
-    --text-white: #ffffff;
-    --text-light: #f5edf0;
-    --text-main: #d8ced3;
-    --text-muted: #9e9197;
-    --text-dim: #6e6268;
-    --text-dark: #ffffff;
-    --text-rosegold: #f5cfcb;
+    --text-white: #FFFFFF;
+    --text-light: #F8F4E8;
+    --text-primary: #F8F4E8;
+    --text-main: #F8F4E8;
+    --text-secondary: #BDB5A2;
+    --text-muted: #BDB5A2;
+    --text-dim: #7E7664;
+    --text-dark: #FFFFFF;
+    --text-rosegold: var(--gold-light);
+    --text-gold: var(--gold-light);
 
     /* Fonts */
     --font-serif: 'Playfair Display', Georgia, serif;
@@ -83,11 +91,11 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #050405;
+    background: #050505;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #281c22;
+    background: #1e1910;
     border-radius: 3px;
 }
 
@@ -98,7 +106,7 @@ body {
 /* Text Selection */
 ::selection {
     background-color: var(--rosegold);
-    color: #050405;
+    color: #050505;
 }
 
 /* Typography Helpers */
@@ -124,7 +132,7 @@ body {
 }
 
 .gold-gradient-text {
-    background: linear-gradient(90deg, #d48c96 0%, #fae6e8 45%, #d48c96 70%, #a85864 100%);
+    background: linear-gradient(90deg, #D4AF37 0%, #FFF3D1 30%, #F5D77A 50%, #D4AF37 70%, #8C6A20 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -198,7 +206,7 @@ body {
 .preloader {
     position: fixed;
     inset: 0;
-    background-color: #050405;
+    background-color: #050505;
     z-index: 99999;
     display: flex;
     align-items: center;
@@ -232,12 +240,12 @@ body {
     0% {
         transform: scale(0.96);
         opacity: 0.7;
-        filter: drop-shadow(0 0 5px rgba(212, 140, 150, 0.3));
+        filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.35));
     }
     100% {
         transform: scale(1.04);
         opacity: 1;
-        filter: drop-shadow(0 0 22px rgba(212, 140, 150, 0.6));
+        filter: drop-shadow(0 0 22px rgba(245, 215, 122, 0.65));
     }
 }
 
@@ -420,7 +428,7 @@ body {
 }
 
 .action-btn:hover {
-    background: rgba(212, 140, 150, 0.2);
+    background: rgba(212, 175, 55, 0.22);
     border-color: var(--rosegold);
     color: var(--rosegold-light);
 }
@@ -435,8 +443,8 @@ body {
 .btn-gold-pill:hover {
     background: #ffffff;
     border-color: #ffffff;
-    color: #0a0709;
-    box-shadow: 0 4px 18px rgba(212, 140, 150, 0.4);
+    color: #050505;
+    box-shadow: 0 4px 18px rgba(212, 175, 55, 0.4);
 }
 
 .cart-btn {
@@ -470,7 +478,7 @@ body {
     top: -2px;
     right: -4px;
     background-color: var(--rosegold);
-    color: #080608;
+    color: #080808;
     font-size: 9px;
     font-weight: 700;
     width: 17px;
@@ -747,9 +755,9 @@ body {
 }
 
 .pyramid-tab.active {
-    background: linear-gradient(135deg, rgba(212, 140, 150, 0.2), rgba(20, 14, 18, 0.95));
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(20, 14, 18, 0.95));
     border-color: var(--rosegold);
-    box-shadow: 0 8px 25px rgba(212, 140, 150, 0.2);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.22);
 }
 
 .tab-level {
@@ -861,7 +869,7 @@ body {
 .product-card:hover {
     transform: translateY(-8px);
     border-color: var(--rosegold);
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 140, 150, 0.25);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.25);
 }
 
 .product-badge {
@@ -966,8 +974,8 @@ body {
 .btn-buy:hover {
     background: #ffffff;
     border-color: #ffffff;
-    color: #0a0709;
-    box-shadow: 0 4px 16px rgba(212, 140, 150, 0.4);
+    color: #050505;
+    box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
 }
 
 /* ==========================================================================
@@ -1011,14 +1019,14 @@ body {
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 24px rgba(212, 140, 150, 0.3);
+    box-shadow: 0 10px 24px rgba(212, 175, 55, 0.35);
 }
 
 .btn-gold-action:hover {
     background: #ffffff;
-    color: #0a0709;
+    color: #050505;
     transform: translateY(-2px);
-    box-shadow: 0 14px 30px rgba(212, 140, 150, 0.4);
+    box-shadow: 0 14px 30px rgba(212, 175, 55, 0.4);
 }
 
 /* Philosophy */
@@ -1083,7 +1091,7 @@ body {
     right: 0;
     width: min(92vw, 440px);
     height: 100vh;
-    background: #0e0a0d;
+    background: #0B0B0B;
     border-left: 1px solid var(--rosegold-border);
     box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
     z-index: 2001;
@@ -1198,7 +1206,7 @@ body {
 .cart-drawer-footer {
     padding: 24px 28px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    background: #080608;
+    background: #080808;
 }
 
 .cart-summary-row {
@@ -1244,8 +1252,8 @@ body {
 .btn-checkout:hover {
     background: #ffffff;
     border-color: #ffffff;
-    color: #0a0709;
-    box-shadow: 0 4px 20px rgba(212, 140, 150, 0.4);
+    color: #050505;
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
 }
 
 /* ==========================================================================
@@ -1336,7 +1344,7 @@ body {
 
 .quiz-option:hover {
     border-color: var(--rosegold);
-    background: rgba(212, 140, 150, 0.16);
+    background: rgba(212, 175, 55, 0.16);
     transform: translateY(-2px);
 }
 
@@ -1395,7 +1403,7 @@ body {
    FOOTER
    ========================================================================== */
 .site-footer {
-    background-color: #060405;
+    background-color: #050505;
     border-top: 1px solid var(--rosegold-border);
     padding: 80px 0 36px 0;
     position: relative;
@@ -1504,7 +1512,7 @@ body {
 .newsletter-submit:hover {
     background: #ffffff;
     border-color: #ffffff;
-    color: #0a0709;
+    color: #050505;
 }
 
 .footer-bottom {
@@ -1537,7 +1545,7 @@ body {
 .mobile-drawer {
     position: fixed;
     inset: 0;
-    background: #0a0709;
+    background: #050505;
     border-left: 1px solid var(--rosegold-border);
     z-index: 2500;
     flex-direction: column;
@@ -1717,9 +1725,9 @@ body {
     z-index: 99998;
     transform: translate(-50%, -50%);
     background: radial-gradient(circle,
-            rgba(224, 140, 155, 0.38) 0%,
-            rgba(195, 100, 118, 0.22) 30%,
-            rgba(145, 60, 75, 0.1) 55%,
+            rgba(245, 215, 122, 0.35) 0%,
+            rgba(212, 175, 55, 0.2) 30%,
+            rgba(140, 106, 32, 0.1) 55%,
             transparent 75%);
     filter: blur(12px);
     opacity: 0;
@@ -1739,9 +1747,9 @@ body {
     height: 150%;
     border-radius: 50%;
     background: radial-gradient(circle,
-            rgba(224, 140, 155, 0.38) 0%,
-            rgba(195, 100, 118, 0.22) 30%,
-            rgba(145, 60, 75, 0.1) 55%,
+            rgba(245, 215, 122, 0.35) 0%,
+            rgba(212, 175, 55, 0.2) 30%,
+            rgba(140, 106, 32, 0.1) 55%,
             transparent 75%);
     filter: blur(16px);
     animation: cursorFogBreathe 3.5s ease-in-out infinite alternate;
@@ -1768,9 +1776,9 @@ body {
     width: 140px;
     height: 140px;
     background: radial-gradient(circle,
-            rgba(235, 150, 165, 0.45) 0%,
-            rgba(205, 110, 128, 0.28) 30%,
-            rgba(155, 70, 85, 0.15) 55%,
+            rgba(245, 215, 122, 0.45) 0%,
+            rgba(212, 175, 55, 0.28) 30%,
+            rgba(140, 106, 32, 0.15) 55%,
             transparent 75%);
     filter: blur(16px);
 }
@@ -1780,9 +1788,9 @@ body {
     width: 180px;
     height: 180px;
     background: radial-gradient(circle,
-            rgba(235, 150, 165, 0.5) 0%,
-            rgba(205, 110, 128, 0.3) 30%,
-            rgba(155, 70, 85, 0.15) 55%,
+            rgba(245, 215, 122, 0.55) 0%,
+            rgba(212, 175, 55, 0.32) 30%,
+            rgba(140, 106, 32, 0.15) 55%,
             transparent 75%);
     filter: blur(20px);
 }
@@ -1850,10 +1858,10 @@ button,
 }
 
 .collection-tab-btn.active {
-    background: linear-gradient(135deg, rgba(212, 140, 150, 0.3), rgba(20, 14, 18, 0.95));
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.35), rgba(20, 14, 18, 0.95));
     border-color: var(--rosegold);
     color: var(--text-white);
-    box-shadow: 0 4px 20px rgba(212, 140, 150, 0.25);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25);
 }
 
 .collection-filter-bar {
@@ -1884,9 +1892,9 @@ button,
 .gender-filter-btn.active {
     background: var(--rosegold);
     border-color: var(--rosegold);
-    color: #050405;
+    color: #050505;
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(212, 140, 150, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
 }
 
 /* Card Action Buttons */
@@ -1911,7 +1919,7 @@ button,
 .btn-detail-link:hover {
     border-color: var(--rosegold);
     color: #ffffff;
-    background: rgba(212, 140, 150, 0.15);
+    background: rgba(212, 175, 55, 0.15);
 }
 
 .product-card-clickable {
@@ -1921,7 +1929,7 @@ button,
 /* Scent Finder Controls */
 .find-scents-section {
     padding: 100px 0;
-    background: linear-gradient(180deg, var(--bg-obsidian) 0%, #0c080b 50%, var(--bg-obsidian) 100%);
+    background: linear-gradient(180deg, var(--bg-obsidian) 0%, #0A0A0A 50%, var(--bg-obsidian) 100%);
 }
 
 .find-scents-card {
@@ -1982,7 +1990,7 @@ button,
     border-color: var(--rosegold);
     color: #ffffff;
     font-weight: 600;
-    box-shadow: 0 4px 14px rgba(212, 140, 150, 0.35);
+    box-shadow: 0 4px 14px rgba(212, 175, 55, 0.35);
 }
 
 .scent-search-reset-row {
@@ -2015,7 +2023,7 @@ button,
 
 .scent-search-input:focus {
     border-color: var(--rosegold);
-    box-shadow: 0 0 15px rgba(212, 140, 150, 0.25);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
 }
 
 .scent-search-input::placeholder {
@@ -2049,7 +2057,7 @@ button,
 .btn-reset-filters:hover {
     border-color: var(--rosegold);
     color: var(--text-white);
-    background: rgba(212, 140, 150, 0.15);
+    background: rgba(212, 175, 55, 0.15);
 }
 
 .finder-status-bar {
@@ -2111,7 +2119,7 @@ button,
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-    background: #0f0b0e;
+    background: #101010;
     border: 1px solid var(--rosegold-border);
     border-radius: 24px;
     padding: 44px;
@@ -2146,7 +2154,7 @@ button,
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    background: #080608;
+    background: #080808;
     border: 1px solid var(--rosegold-border);
     aspect-ratio: 3 / 4;
     display: flex;
@@ -2228,7 +2236,7 @@ button,
 }
 
 .modal-inspiration-box {
-    background: rgba(212, 140, 150, 0.08);
+    background: rgba(212, 175, 55, 0.1);
     border: 1px solid var(--rosegold-border);
     border-radius: 12px;
     padding: 14px 18px;
@@ -2289,5 +2297,421 @@ button,
     }
     .find-scents-card {
         padding: 28px 20px;
+    }
+}
+
+/* ==========================================================================
+   ROYAL GOLD LUXURY ENHANCEMENTS: BUTTON SHIMMER, SIZE SELECTORS & CURSOR
+   ========================================================================== */
+
+/* Button Luxury Shimmer Effects */
+.btn-gold-action,
+.btn-checkout,
+.btn-buy,
+.btn-gold-pill {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #D4AF37 0%, #B89228 50%, #8C6A20 100%) !important;
+    border: 1px solid #F5D77A !important;
+    color: #050505 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35) !important;
+    transition: all 0.35s ease !important;
+}
+
+.btn-gold-action::after,
+.btn-checkout::after,
+.btn-buy::after,
+.btn-gold-pill::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -70%;
+    width: 45%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.45),
+        transparent
+    );
+    transform: rotate(30deg);
+    transition: none;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.btn-gold-action:hover,
+.btn-checkout:hover,
+.btn-buy:hover,
+.btn-gold-pill:hover {
+    background: linear-gradient(135deg, #F5D77A 0%, #D4AF37 50%, #B89228 100%) !important;
+    color: #000000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 26px rgba(245, 215, 122, 0.5) !important;
+}
+
+.btn-gold-action:hover::after,
+.btn-checkout:hover::after,
+.btn-buy:hover::after,
+.btn-gold-pill:hover::after {
+    opacity: 1;
+    left: 140%;
+    transition: left 0.75s ease-in-out;
+}
+
+/* Nav Link Underline in Metallic Gold */
+.nav-link {
+    position: relative;
+    padding-bottom: 4px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    background: linear-gradient(90deg, #8C6A20, #F5D77A, #8C6A20);
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+    left: 0;
+}
+
+/* Product Card Luxury Black & Gold Upgrades */
+.product-card {
+    border-radius: 18px !important;
+    background: linear-gradient(160deg, #161616 0%, #111111 60%, #0B0B0B 100%) !important;
+    border: 1px solid rgba(212, 175, 55, 0.22) !important;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(245, 215, 122, 0.08) !important;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.4s var(--transition-smooth), border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
+
+.product-card:hover {
+    border-color: rgba(245, 215, 122, 0.65) !important;
+    box-shadow: 0 22px 52px rgba(0, 0, 0, 0.9), 0 0 32px rgba(212, 175, 55, 0.24), inset 0 1px 0 rgba(245, 215, 122, 0.2) !important;
+}
+
+/* Collection Badges */
+.badge-standard {
+    background: rgba(14, 14, 14, 0.94) !important;
+    border: 1px solid rgba(212, 175, 55, 0.38) !important;
+    color: #F8F4E8 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+    font-size: 8.5px !important;
+    letter-spacing: 0.16em !important;
+}
+
+.badge-premium {
+    background: linear-gradient(135deg, rgba(38, 30, 14, 0.98) 0%, rgba(18, 16, 12, 0.98) 100%) !important;
+    border: 1px solid #D4AF37 !important;
+    color: #F5D77A !important;
+    box-shadow: 0 4px 18px rgba(212, 175, 55, 0.28) !important;
+    font-size: 8.5px !important;
+    letter-spacing: 0.16em !important;
+}
+
+/* Interactive Card Size Selector */
+.product-size-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 12px 0 16px 0;
+    padding: 8px 12px;
+    background: rgba(10, 10, 10, 0.75);
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    border-radius: 20px;
+}
+
+.size-selector-label {
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    color: var(--text-dim);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.size-pills-group {
+    display: flex;
+    gap: 6px;
+}
+
+.size-pill-btn {
+    background: rgba(22, 22, 22, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 4px 12px;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.size-pill-btn:hover {
+    border-color: var(--gold-light);
+    color: var(--text-white);
+    background: rgba(35, 30, 20, 0.9);
+}
+
+.size-pill-btn.active {
+    background: linear-gradient(135deg, #D4AF37 0%, #8C6A20 100%);
+    border-color: var(--gold-light);
+    color: #050505;
+    font-weight: 700;
+    box-shadow: 0 2px 10px rgba(212, 175, 55, 0.35);
+}
+
+.price-display-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-size-caption {
+    font-size: 9.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+}
+
+/* Modal Interactive Size Switcher */
+.modal-size-selector-wrap {
+    margin: 18px 0 20px 0;
+    padding: 16px;
+    background: rgba(14, 14, 14, 0.88);
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    border-radius: 16px;
+}
+
+.modal-size-heading {
+    display: block;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    color: var(--gold-light);
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.modal-size-btn-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.modal-size-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(22, 22, 22, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    outline: none;
+}
+
+.modal-btn-vol {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 3px;
+    color: var(--text-white);
+}
+
+.modal-btn-sub {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+}
+
+.modal-size-btn:hover {
+    border-color: var(--gold);
+    background: rgba(30, 26, 18, 0.9);
+}
+
+.modal-size-btn.active {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.22) 0%, rgba(140, 106, 32, 0.28) 100%);
+    border-color: #D4AF37;
+    box-shadow: 0 4px 18px rgba(212, 175, 55, 0.25), inset 0 0 12px rgba(245, 215, 122, 0.1);
+}
+
+.modal-size-btn.active .modal-btn-vol {
+    color: #F5D77A;
+}
+
+.modal-size-btn.active .modal-btn-sub {
+    color: #F8F4E8;
+}
+
+/* ==========================================================================
+   PREMIUM ROYAL GOLD CURSOR & HALO
+   ========================================================================== */
+
+/* Small refined golden dot tracking pointer immediately */
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #F5D77A;
+    box-shadow: 0 0 8px #D4AF37, 0 0 3px #FFFFFF;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.15s ease, background-color 0.2s ease;
+    will-change: transform, opacity;
+}
+
+.cursor-dot.active {
+    opacity: 1;
+}
+
+.cursor-dot.glow-hover {
+    transform: translate(-50%, -50%) scale(1.4);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 14px #F5D77A, 0 0 5px #FFFFFF;
+}
+
+.cursor-dot.is-clicking {
+    transform: translate(-50%, -50%) scale(0.75);
+}
+
+/* Larger subtle golden halo following pointer with fluid delay */
+.cursor-halo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.55);
+    background: radial-gradient(circle, rgba(245, 215, 122, 0.08) 0%, rgba(212, 175, 55, 0.02) 60%, transparent 100%);
+    box-shadow: 0 0 16px rgba(212, 175, 55, 0.22), inset 0 0 10px rgba(245, 215, 122, 0.1);
+    pointer-events: none;
+    z-index: 999998;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.35s var(--transition-smooth), height 0.35s var(--transition-smooth), border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    will-change: transform, opacity, width, height;
+}
+
+.cursor-halo.active {
+    opacity: 1;
+}
+
+.cursor-halo.glow-hover {
+    width: 58px;
+    height: 58px;
+    border-color: #F5D77A;
+    background: radial-gradient(circle, rgba(245, 215, 122, 0.18) 0%, rgba(212, 175, 55, 0.06) 65%, transparent 100%);
+    box-shadow: 0 0 24px rgba(245, 215, 122, 0.35), inset 0 0 14px rgba(212, 175, 55, 0.2);
+}
+
+.cursor-halo.glow-bottle {
+    width: 76px;
+    height: 76px;
+    border-color: rgba(245, 215, 122, 0.9);
+    background: radial-gradient(circle, rgba(245, 215, 122, 0.22) 0%, rgba(212, 175, 55, 0.08) 70%, transparent 100%);
+    box-shadow: 0 0 32px rgba(212, 175, 55, 0.5);
+}
+
+.cursor-halo.is-clicking {
+    transform: translate(-50%, -50%) scale(0.85);
+    border-color: #FFFFFF;
+    background: radial-gradient(circle, rgba(245, 215, 122, 0.3) 0%, transparent 80%);
+}
+
+/* Fullscreen canvas for golden sparkles & mist */
+.cursor-mist-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 999995;
+}
+
+/* Soft ambient royal gold fog */
+.cursor-fog-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999996;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle,
+            rgba(245, 215, 122, 0.25) 0%,
+            rgba(212, 175, 55, 0.15) 35%,
+            rgba(140, 106, 32, 0.06) 60%,
+            transparent 75%);
+    filter: blur(14px);
+    opacity: 0;
+    transition: opacity 0.35s ease,
+        width 0.4s var(--transition-smooth),
+        height 0.4s var(--transition-smooth),
+        filter 0.4s ease;
+    will-change: transform, width, height, opacity;
+}
+
+.cursor-fog-glow.active {
+    opacity: 1;
+}
+
+.cursor-fog-glow.glow-hover {
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle,
+            rgba(245, 215, 122, 0.35) 0%,
+            rgba(212, 175, 55, 0.2) 35%,
+            rgba(140, 106, 32, 0.08) 60%,
+            transparent 75%);
+    filter: blur(18px);
+}
+
+.cursor-fog-glow.glow-bottle {
+    width: 190px;
+    height: 190px;
+    background: radial-gradient(circle,
+            rgba(245, 215, 122, 0.4) 0%,
+            rgba(212, 175, 55, 0.25) 35%,
+            rgba(140, 106, 32, 0.1) 60%,
+            transparent 75%);
+    filter: blur(22px);
+}
+
+/* Hide custom cursor on mobile / touch devices */
+@media (max-width: 768px), (pointer: coarse) {
+    .cursor-dot,
+    .cursor-halo,
+    .cursor-fog-glow,
+    .cursor-mist-canvas {
+        display: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor-halo,
+    .cursor-fog-glow {
+        transition: none !important;
     }
 }
