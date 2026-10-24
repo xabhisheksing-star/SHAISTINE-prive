@@ -1,6 +1,6 @@
-# SHAÏSTINE PRIVÉ — Haute Parfumerie & Continuous Scroll Experience
+# SHAÏSTINE PRIVÉ — Fine Perfumery & Continuous Scroll Experience
 
-An ultra-luxury, editorial Haute Parfumerie digital experience showcasing **L'EXTRAIT NOIR** through a precision 213-frame liquid inertia scroll engine, atmospheric golden foggy cursor glow, ambient Web Audio synthesis, interactive olfactive pyramid, bespoke fragrance diagnostic concierge, and luxury cart ledger.
+An ultra-luxury, editorial Fine Perfumery digital experience showcasing **THE BLACK EXTRACT** through a precision 213-frame liquid inertia scroll engine, atmospheric golden foggy cursor glow, ambient Web Audio synthesis, interactive olfactive pyramid, bespoke fragrance diagnostic concierge, and luxury cart ledger.
 
 ---
 
@@ -10,22 +10,22 @@ An ultra-luxury, editorial Haute Parfumerie digital experience showcasing **L'EX
    - High-DPI canvas cover-scaling for crisp rendering across all viewports.
    - 1-time automatic playback on page landing or refresh.
    - Continuous seamless loop scroll animation across all 213 frames.
-   - Precision milestone story chapters synchronized with frame ranges (*Acte I* through *Acte III*).
+   - Precision milestone story chapters synchronized with frame ranges (*Act I* through *Act III*).
 
 2. **Atmospheric Golden Foggy Cursor Glow & Perfume Mist Trail**:
    - Preserves crisp, non-transparent native OS cursors everywhere.
    - Multi-layered warm golden foggy halo (`#d4af37`, `#f3e5ce`, `#c5a880`) with living vapor breathing animation.
    - Fullscreen aerosol perfume mist particle system that dissipates behind mouse movement.
-   - Dynamic hover expansion over interactive controls and central flacon zone.
+   - Dynamic hover expansion over interactive controls and central bottle zone.
 
 3. **Web Audio API Ambient Soundscape**:
    - Procedural dual-oscillator drone + filtered pink/brown noise micro-atomizer puff synthesis.
    - Dynamically swells in pitch and resonance as the bottle pirouettes through frames.
 
-4. **Haute Horlogerie & Parfumerie Editorial Sections**:
-   - **The Atelier Vessel Story**: Deep crystal anatomy and French artisanal craft notes.
+4. **Fine Watchmaking & Perfumery Editorial Sections**:
+   - **The Workshop Vessel Story**: Deep crystal anatomy and French artisanal craft notes.
    - **Interactive Olfactive Pyramid**: Exploration of Top, Heart, and Base notes with raw material origin dossiers.
-   - **Haute Collection**: Numbered vintage bottle cards with volumetric specs, price cards, and interactive purchase ledger.
+   - **Fine Collection**: Numbered vintage bottle cards with volumetric specs, price cards, and interactive purchase ledger.
    - **Bespoke Diagnostic Concierge**: 3-question private recommendation quiz matching user temperament to bespoke allocations.
    - **Cart Drawer & Checkout System**: Real-time sliding drawer, order accounting, and secure simulated checkout.
 
@@ -41,7 +41,7 @@ This repository is optimized for instant zero-configuration deployment on [Verce
 4. **Output Directory**: Leave empty (root `./`).
 5. Click **Deploy**.
 
-Vercel will deploy globally across its Edge Network with the included [`vercel.json`](./vercel.json) caching rules for maximum performance on all 240 high-resolution frames.
+Vercel will deploy globally across its Edge Network with the included [`vercel.json`](./vercel.json) caching rules for maximum performance on all high-resolution frames.
 
 ---
 
@@ -81,4 +81,4 @@ Then open `http://localhost:8080/` in your browser.
 
 ---
 
-&copy; 2026 SHAÏSTINE PRIVÉ MAISON DE HAUTE PARFUMERIE. ALL RIGHTS RESERVED.
+&copy; 2026 SHAÏSTINE PRIVÉ HOUSE OF FINE PERFUMERY. ALL RIGHTS RESERVED.

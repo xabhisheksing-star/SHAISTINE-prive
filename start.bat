@@ -1,7 +1,7 @@
 @echo off
 title SHAISTINE PRIVE - Local Server
 echo ============================================================
-echo   SHAISTINE PRIVE - Haute Parfumerie Local Server
+echo   SHAISTINE PRIVE - Fine Perfumery Local Server
 echo ============================================================
 echo.
 echo Starting local web server on port 8080...

@@ -1,6 +1,6 @@
 /**
- * SHAÏSTINE PRIVÉ — Haute Parfumerie & Bespoke Sillage
- * 300-Frame Scroll Animation Engine, Web Audio Mist Synthesizer, & Luxury Cart
+ * SHAÏSTINE PRIVÉ — Fine Perfumery & Bespoke Sillage
+ * 213-Frame Scroll Animation Engine, Web Audio Mist Synthesizer, & Luxury Cart
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -136,22 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             from: 0,
             to: 70,
-            chapter: 'ACTE I',
-            title: "L'OBSIDIENNE & LA VAPEUR",
+            chapter: 'ACT I',
+            title: "OBSIDIAN & CELESTIAL MIST",
             desc: 'Obsidian glass emerging through celestial gold mist.'
         },
         {
             from: 71,
             to: 145,
-            chapter: 'ACTE II',
-            title: "LE COLLIER D'OR 24 CARATS",
-            desc: 'Architectural flacon crowned in hand-sculpted French gold.'
+            chapter: 'ACT II',
+            title: "THE 24-KARAT GOLD COLLAR",
+            desc: 'Architectural bottle crowned in hand-sculpted French gold.'
         },
         {
             from: 146,
             to: 212,
-            chapter: 'ACTE III',
-            title: "L'EXTRAIT NOIR · BESPOKE SILLAGE",
+            chapter: 'ACT III',
+            title: "THE BLACK EXTRACT · BESPOKE SILLAGE",
             desc: 'Astronomical sillage captured for eternity in Paris.'
         }
     ];
@@ -618,7 +618,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span style="font-size: 8.5px; color: var(--gold-light); letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 2px;">${collectionLabel}</span>
                             <h4 class="cart-item-title font-editorial">${item.name}</h4>
                             <p class="cart-item-price">${priceDisplay}</p>
-                            <span style="font-size: 9px; color: var(--text-muted); letter-spacing: 0.12em; display:block; margin-top:2px;">FLACON SIZE: ${item.size || '10 ml'}</span>
+                            <span style="font-size: 9px; color: var(--text-muted); letter-spacing: 0.12em; display:block; margin-top:2px;">BOTTLE SIZE: ${item.size || '10 ml'}</span>
                         </div>
                     </div>
                     <div class="cart-qty-ctrl">
@@ -678,7 +678,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Your bag is currently empty. Please select a fragrance from the collection.');
             } else {
                 const total = window.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                alert(`Thank you for choosing SHAÏSTINE PRIVÉ. Your bespoke order totaling ₱${total.toLocaleString()} has been placed in our private atelier ledger.`);
+                alert(`Thank you for choosing SHAÏSTINE PRIVÉ. Your bespoke order totaling ₱${total.toLocaleString()} has been placed in our private workshop ledger.`);
                 window.cart = [];
                 updateCartUI();
                 closeCart();
@@ -689,7 +689,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartUI();
 
     // =========================================================================
-    // 13. HAUTE PARFUMERIE COLLECTION DATABASE (21 LUXURY FRAGRANCES)
+    // 13. FINE PERFUMERY COLLECTION DATABASE (21 LUXURY FRAGRANCES)
     // Standard Collection: 50 ml — ₱2,000 | 10 ml — ₱700
     // Premium Collection: 50 ml — ₱2,200 | 10 ml — ₱800
     // =========================================================================
@@ -703,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -721,13 +721,13 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: true,
             inspiredBy: null,
-            tagline: 'Maison Signature Scent',
-            desc: 'The pinnacle eponymous creation of Maison Shaïstine Privé. A radiant, bespoke oil formulated with rare botanical extracts.',
+            tagline: 'House Signature Scent',
+            desc: 'The pinnacle eponymous creation of the House of Shaïstine Privé. A radiant, bespoke oil formulated with rare botanical extracts.',
             image: 'assets/shaistine.jpg',
             preference: 'signature'
         },
@@ -739,12 +739,12 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: true,
             inspiredBy: null,
-            tagline: 'Maison Signature Scent',
+            tagline: 'House Signature Scent',
             desc: 'An enchanting, velvety signature formulation crafted for intimate presence and lingering elegance.',
             image: 'assets/blaire.jpg',
             preference: 'signature'
@@ -757,12 +757,12 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: true,
             inspiredBy: null,
-            tagline: 'Maison Signature Scent',
+            tagline: 'House Signature Scent',
             desc: 'An opulent, transcendent elixir uniting rare golden ambers, velvety nocturnal petals, and exquisite botanical resins.',
             image: 'assets/featured.jpg',
             preference: 'signature'
@@ -775,12 +775,12 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: true,
             inspiredBy: null,
-            tagline: 'Maison Signature Scent',
+            tagline: 'House Signature Scent',
             desc: 'A pure, crystalline essence of grace and delicate warmth, hand-bottled in small seasonal batches.',
             image: 'assets/tinaelle.jpg',
             preference: 'signature'
@@ -793,7 +793,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -811,7 +811,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -829,7 +829,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 800, formatPrice: '₱800', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2200, formatPrice: '₱2,200', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -849,7 +849,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -885,7 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -903,7 +903,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -921,7 +921,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -939,7 +939,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'women',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -957,7 +957,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -975,7 +975,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -993,7 +993,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -1011,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -1029,7 +1029,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -1047,7 +1047,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -1065,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gender: 'men',
             sizes: {
                 '10ml': { volume: '10 ml', price: 700, formatPrice: '₱700', concentration: '100% Concentrated Oil' },
-                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Extrait de Parfum' }
+                '50ml': { volume: '50 ml', price: 2000, formatPrice: '₱2,000', concentration: 'Perfume Extract' }
             },
             defaultSize: '10ml',
             isSignatureOriginal: false,
@@ -1134,7 +1134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const inspirationHTML = item.inspiredBy 
             ? `<p class="product-tagline">Inspired by ${item.inspiredBy}</p>`
-            : `<p class="product-tagline">Maison Signature Scent</p>`;
+            : `<p class="product-tagline">House Signature Scent</p>`;
 
         return `
             <div class="product-card glass-panel reveal-up product-card-clickable" onclick="openProductDetail('${item.id}', event)">
@@ -1150,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <!-- Interactive Size Selector -->
                     <div class="product-size-selector" onclick="event.stopPropagation()">
-                        <span class="size-selector-label">FLACON SIZE</span>
+                        <span class="size-selector-label">BOTTLE SIZE</span>
                         <div class="size-pills-group" id="sizeGroup-${item.id}">
                             <button type="button" class="size-pill-btn ${selectedSize === '10ml' ? 'active' : ''}" data-size="10ml" onclick="selectCardSize('${item.id}', '10ml', event)">
                                 10 ml
@@ -1370,7 +1370,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (catEl) catEl.textContent = `${product.category.toUpperCase()}'S · ${product.collection.toUpperCase()} COLLECTION`;
         if (titleEl) titleEl.textContent = product.name;
         if (tagEl) {
-            tagEl.textContent = product.inspiredBy ? `Inspired by ${product.inspiredBy}` : 'Maison Signature Scent';
+            tagEl.textContent = product.inspiredBy ? `Inspired by ${product.inspiredBy}` : 'House Signature Scent';
         }
         if (descEl) descEl.textContent = product.desc;
 
@@ -1384,7 +1384,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 inspText.textContent = `Inspired by ${product.inspiredBy}`;
             } else {
                 inspBox.style.display = 'block';
-                inspText.textContent = 'Exclusive Signature Scent — Original Atelier Formulation';
+                inspText.textContent = 'Exclusive Signature Scent — Original Workshop Formulation';
             }
         }
 
@@ -1743,7 +1743,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Perfume Flacon Central Hover Zone
+        // Perfume Bottle Central Hover Zone
         if (bottleHoverZone) {
             bottleHoverZone.addEventListener('mouseenter', () => {
                 if (cursorHalo) cursorHalo.classList.add('glow-bottle');
