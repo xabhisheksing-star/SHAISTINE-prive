@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHAÏSTINE PRIVÉ — Haute Parfumerie & Bespoke Sillage</title>
-    <meta name="description" content="Immerse in the sensory alchemy of Shaïstine Privé. 240-frame interactive scroll animation exploring the bespoke creation of L'Extrait Noir.">
+    <meta name="description" content="Immerse in the sensory alchemy of Shaïstine Privé. 300-frame interactive scroll animation exploring the bespoke creation of L'Extrait Noir.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=royalgold_1">
+    <link rel="stylesheet" href="css/styles.css?v=hero_loop_v5">
 </head>
 <body>
 
@@ -17,13 +17,39 @@
         <div class="preloader-content">
             <div class="preloader-monogram">SP</div>
             <h2 class="preloader-brand">SHAÏSTINE PRIVÉ</h2>
-            <p id="preloaderText" class="preloader-sub">HARMONIZING 240 OLFACTIVE FRAMES...</p>
+            <p id="preloaderText" class="preloader-sub">AWAKENING BESPOKE SILLAGE...</p>
             <div class="preloader-bar-bg">
                 <div id="preloaderBar" class="preloader-bar-fill"></div>
             </div>
             <div id="preloaderPercent" class="preloader-percent">0%</div>
         </div>
     </div>
+    <script>
+        // High-reliability preloader dismiss timer: guaranteed never to hang at 0%
+        (function() {
+            var pBar = document.getElementById('preloaderBar');
+            var pPct = document.getElementById('preloaderPercent');
+            var pEl = document.getElementById('preloader');
+            var p = 0;
+            var timer = setInterval(function() {
+                p += 20;
+                var pct = Math.min(p, 100);
+                if (pBar) pBar.style.width = pct + '%';
+                if (pPct) pPct.textContent = pct + '%';
+                if (p >= 100) {
+                    clearInterval(timer);
+                    setTimeout(function() {
+                        if (pEl) pEl.classList.add('loaded');
+                    }, 120);
+                }
+            }, 25);
+            setTimeout(function() {
+                if (pEl && !pEl.classList.contains('loaded')) {
+                    pEl.classList.add('loaded');
+                }
+            }, 600);
+        })();
+    </script>
 
     <!-- HEADER / NAVIGATION -->
     <header id="siteHeader" class="site-header">
@@ -90,36 +116,56 @@
     <!-- MAIN WRAPPER -->
     <main>
 
-        <!-- 1. HERO SCROLL ANIMATION SECTION (240 FRAMES IN BOUNDED LOOP) -->
-        <section id="experience" class="scroll-track">
+        <!-- 1. HERO SCROLL ANIMATION SECTION (213 Frames Scrubbing Experience) -->
+        <section id="experience" class="hero-scroll-section" aria-label="Shaïstine Privé Flacon Scroll Experience">
             <div class="sticky-canvas-container">
-                
-                <!-- Full-Bleed 3D Stage Filling the Hero Section -->
-                <div class="canvas-3d-stage">
-                    <div id="bottleCanvasWrapper" class="bottle-canvas-wrapper">
-                        <!-- Main Scrubbing Canvas -->
-                        <canvas id="frameCanvas"></canvas>
-                    </div>
-                    <!-- Interactive Central Bottle Hover Zone for Cursor State -->
-                    <div id="bottleHoverZone" class="bottle-hover-zone" aria-label="Interactive Perfume Flacon Zone"></div>
-                </div>
+                <!-- High-Performance Interactive Canvas Scrubber -->
+                <canvas id="heroCanvas" class="hero-canvas" aria-label="Haute Parfumerie 3D Flacon Emergence"></canvas>
 
-                <!-- Hero Intro Typography -->
+                <!-- Subtle luxury multi-directional black gradient overlay -->
+                <div class="hero-gradient-overlay" aria-hidden="true"></div>
+                <div class="hero-radial-vignette" aria-hidden="true"></div>
+
+                <!-- Hero Content Overlay (Headline, Navigation, and CTA Buttons above the canvas) -->
                 <div id="heroIntro" class="hero-intro-overlay">
-                    <span class="gold-subtitle">EXTRAIT DE PARFUM · COLLECTION PRIVÉE</span>
+                    <div class="hero-intro-badge">
+                        <span class="gold-subtitle">EXTRAIT DE PARFUM · COLLECTION PRIVÉE</span>
+                    </div>
                     <h1 class="hero-main-title">SHAÏSTINE PRIVÉ</h1>
-                    <p class="hero-desc">An ethereal emergence of obsidian glass, blush sillage, and 240 continuous cinematic frames.</p>
+                    <p class="hero-desc">An ethereal emergence of obsidian glass, 24k golden sillage, and bespoke haute parfumerie hand-crafted in Paris.</p>
                     <div class="hero-title-divider"></div>
+                    
+                    <!-- CTA Buttons above the canvas -->
+                    <div class="hero-cta-group">
+                        <a href="#olfactive" class="hero-btn btn-gold-solid">
+                            <span>EXPLORE SILLAGE</span>
+                            <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                        <a href="#find-scent" class="hero-btn btn-gold-ghost">
+                            <span>FIND YOUR SCENT</span>
+                        </a>
+                    </div>
                 </div>
 
-                <!-- Animated Scroll Hint -->
+                <!-- Dynamic Story Callouts that reveal as you scroll through the 213 frames -->
+                <div id="heroStoryOverlay" class="hero-story-overlay" aria-live="polite">
+                    <div class="story-badge" id="storyBadge">
+                        <span class="story-chapter" id="storyChapter">ACTE I</span>
+                        <span class="story-title" id="storyTitle">L'OBSIDIENNE & L'OR</span>
+                        <span class="story-desc" id="storyDesc">Obsidian glass forged in celestial darkness.</span>
+                    </div>
+                </div>
+
+                <!-- Animated Scroll Hint with Realtime Frame Scrubber Counter -->
                 <div id="scrollHint" class="scroll-hint">
-                    <span class="hint-text">SCROLL TO EXPLORE · 240 FRAMES</span>
+                    <div class="scroll-frame-counter" id="scrollCounterBtn" role="button" tabindex="0" title="Click to replay flacon reveal">
+                        <span class="counter-label" id="counterLabel">AUTOPLAYING REVEAL · 1X</span>
+                        <span id="frameIndicator" class="counter-val">001 / 213</span>
+                    </div>
                     <div class="mouse-icon">
                         <div class="wheel-dot"></div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -565,6 +611,6 @@
     <div id="cursorFogGlow" class="cursor-fog-glow" aria-hidden="true"></div>
 
     <!-- JAVASCRIPT LOGIC -->
-    <script src="js/script.js?v=royalgold_1"></script>
+    <script src="js/script.js?v=hero_loop_v5"></script>
 </body>
 </html>

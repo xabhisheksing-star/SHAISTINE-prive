@@ -23,7 +23,8 @@ public class StaticServer {
         { ".woff2", "font/woff2" },
         { ".ttf", "font/ttf" },
         { ".mp3", "audio/mpeg" },
-        { ".mp4", "video/mp4" }
+        { ".mp4", "video/mp4" },
+        { ".webm", "video/webm" }
     };
 
     public StaticServer(string baseDir, int port) {

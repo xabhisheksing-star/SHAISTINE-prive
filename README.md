@@ -1,16 +1,16 @@
 # SHAÏSTINE PRIVÉ — Haute Parfumerie & Continuous Scroll Experience
 
-An ultra-luxury, editorial Haute Parfumerie digital experience showcasing **L'EXTRAIT NOIR** through a precision 240-frame liquid inertia scroll engine, atmospheric golden foggy cursor glow, ambient Web Audio synthesis, interactive olfactive pyramid, bespoke fragrance diagnostic concierge, and luxury cart ledger.
+An ultra-luxury, editorial Haute Parfumerie digital experience showcasing **L'EXTRAIT NOIR** through a precision 213-frame liquid inertia scroll engine, atmospheric golden foggy cursor glow, ambient Web Audio synthesis, interactive olfactive pyramid, bespoke fragrance diagnostic concierge, and luxury cart ledger.
 
 ---
 
 ## 🌟 Key Features
 
-1. **240-Frame Interactive Cinematic Scroll Engine**:
+1. **213-Frame Interactive Cinematic Scroll Engine**:
    - High-DPI canvas cover-scaling for crisp rendering across all viewports.
-   - Bound scrubbing mode (`0` to `239`) transitioning smoothly into the rest of the editorial narrative.
-   - First-arrival autoplay cinematic intro with instant scroll-wheel / touch handoff.
-   - Precision milestone story chapters synchronized with frame ranges (*Phase I* through *Phase IV*).
+   - 1-time automatic playback on page landing or refresh.
+   - Continuous seamless loop scroll animation across all 213 frames.
+   - Precision milestone story chapters synchronized with frame ranges (*Acte I* through *Acte III*).
 
 2. **Atmospheric Golden Foggy Cursor Glow & Perfume Mist Trail**:
    - Preserves crisp, non-transparent native OS cursors everywhere.
@@ -70,7 +70,7 @@ Then open `http://localhost:8080/` in your browser.
 ├── assets/                  # Brand imagery, luxury cards, and iconography
 ├── css/
 │   └── styles.css           # Complete luxury design system & responsive layout
-├── hero section/            # 240 continuous frames (ezgif-frame-001.jpg - 240.jpg)
+├── new hero section/        # 213 continuous frames (ezgif-frame-001.jpg - 213.jpg)
 ├── js/
 │   └── script.js            # Frame preloader, physics loop, cursor mist & UI logic
 ├── index.html               # Main semantic HTML5 markup

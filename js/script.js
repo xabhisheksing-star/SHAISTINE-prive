@@ -1,601 +1,437 @@
 /**
  * SHAÏSTINE PRIVÉ — Haute Parfumerie & Bespoke Sillage
- * 240-Frame Interactive Canvas Engine with Infinite Loop,
- * Auto-Play Scrubbing, Web Audio Mist Synthesizer, & Luxury Cart
+ * 300-Frame Scroll Animation Engine, Web Audio Mist Synthesizer, & Luxury Cart
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     
     // =========================================================================
-    // 1. CONFIGURATION & STATE
+    // 1. 213-FRAME LUXURY HERO SCROLL ENGINE & PRELOADER (1X AUTOPLAY & LOOP SCROLL)
     // =========================================================================
-    const TOTAL_FRAMES = 240;
-    const FRAME_DIR = 'Black hero';
+    const TOTAL_FRAMES = 213;
+    const FRAME_DIR = 'assets/hero-frames/';
     const FRAME_PREFIX = 'ezgif-frame-';
-    const FRAME_START_INDEX = 1;
     const FRAME_EXT = '.jpg';
+    const FALLBACK_DIR = 'new hero section/';
 
-    // DOM Canvas & Preloader
-    const canvas = document.getElementById('frameCanvas');
-    const ctx = canvas ? canvas.getContext('2d', { alpha: true }) : null;
-    const scrollTrack = document.getElementById('experience');
+    const canvas = document.getElementById('heroCanvas');
+    const ctx = canvas ? canvas.getContext('2d', { alpha: false }) : null;
+    const heroSection = document.getElementById('experience');
+    const heroIntro = document.getElementById('heroIntro');
+    const scrollHint = document.getElementById('scrollHint');
+    const frameIndicator = document.getElementById('frameIndicator');
+    const counterLabel = document.getElementById('counterLabel');
+    const scrollCounterBtn = document.getElementById('scrollCounterBtn');
+    const storyOverlay = document.getElementById('heroStoryOverlay');
+    const storyChapter = document.getElementById('storyChapter');
+    const storyTitle = document.getElementById('storyTitle');
+    const storyDesc = document.getElementById('storyDesc');
+
     const preloader = document.getElementById('preloader');
     const preloaderBar = document.getElementById('preloaderBar');
     const preloaderPercent = document.getElementById('preloaderPercent');
     const preloaderText = document.getElementById('preloaderText');
-    const heroIntro = document.getElementById('heroIntro');
-    const scrollHint = document.getElementById('scrollHint');
 
-    // HUD Elements
-    const hudPhaseName = document.getElementById('hudPhaseName');
-    const hudFrameCounter = document.getElementById('hudFrameCounter');
-    const hudPercent = document.getElementById('hudPercent');
-    const scrubContainer = document.getElementById('scrubContainer');
-    const scrubFillBar = document.getElementById('scrubFillBar');
-    const scrubThumb = document.getElementById('scrubThumb');
-    
-    // Control Buttons
-    const autoPlayToggleBtn = document.getElementById('autoPlayToggleBtn');
-    const playIconSvg = document.getElementById('playIconSvg');
-    const playBtnText = document.getElementById('playBtnText');
-    const loopModeBtn = document.getElementById('loopModeBtn');
-    const loopModeText = document.getElementById('loopModeText');
-    const speedToggleBtn = document.getElementById('speedToggleBtn');
-    const speedText = document.getElementById('speedText');
-    const restartBtn = document.getElementById('restartBtn');
-
-    // Story Steps
-    const storySteps = [
-        document.getElementById('storyStep1'),
-        document.getElementById('storyStep2'),
-        document.getElementById('storyStep3'),
-        document.getElementById('storyStep4')
-    ];
-
-    // Engine State
     const frames = new Array(TOTAL_FRAMES);
     let loadedCount = 0;
-    let isInitialRenderDone = false;
+    let canvasW = 0;
+    let canvasH = 0;
+    let dpr = 1;
+
     let targetFrame = 0;
-    let currentFrameFloat = 0;
-    let rawProgress = 0; // 0.0 to 1.0 within cycle
-    let isAutoPlaying = false;
-    let playbackSpeed = 1.0;
-    let autoPlayAnimId = null;
-    let autoPlayFloat = 0;
+    let currentFrame = 0;
+    let lastDrawnFrame = -1;
+    let isTicking = false;
 
-    // Loop Mode: 'bound' (stop at bottom & allow page scroll), 'infinite', 'ping-pong'
-    let loopMode = 'bound'; 
+    // 1-Time AutoPlay on Landing / Refresh state
+    let isIntroAutoPlaying = true;
+    let introStartTime = null;
+    const INTRO_AUTOPLAY_DURATION = 6800; // ~6.8 seconds for 213 frames (~32 fps cinematic reveal)
+    let hasUserInteracted = false;
 
-    // =========================================================================
-    // 2. FRAME PRELOADING & RETRIEVAL
-    // =========================================================================
+    // Ensure page refresh lands at top so user experiences the 1-time auto-play
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     function getFrameUrl(index) {
-        const frameNum = String(index + FRAME_START_INDEX).padStart(3, '0');
-        return `${encodeURIComponent(FRAME_DIR)}/${FRAME_PREFIX}${frameNum}${FRAME_EXT}`;
+        const num = String(index + 1).padStart(3, '0');
+        return FRAME_DIR + FRAME_PREFIX + num + FRAME_EXT;
     }
 
-    function preloadFrames() {
-        for (let i = 0; i < TOTAL_FRAMES; i++) {
-            const img = new Image();
-            img.src = getFrameUrl(i);
-            
-            img.onload = () => {
-                frames[i] = img;
-                loadedCount++;
-                
-                const percent = Math.round((loadedCount / TOTAL_FRAMES) * 100);
-                if (preloaderBar) preloaderBar.style.width = `${percent}%`;
-                if (preloaderPercent) preloaderPercent.textContent = `${percent}%`;
+    function getFallbackUrl(index) {
+        const num = String(index + 1).padStart(3, '0');
+        return encodeURIComponent(FALLBACK_DIR).replace(/%2F/g, '/') + FRAME_PREFIX + num + FRAME_EXT;
+    }
 
-                // Render initial frame as soon as frame 0 is ready
-                if (i === 0 && !isInitialRenderDone) {
-                    resizeCanvas();
-                    drawFrame(0);
-                    isInitialRenderDone = true;
-                }
-
-                // Dismiss preloader when initial batch of frames is ready
-                if (loadedCount >= 16 && preloader && !preloader.classList.contains('loaded')) {
-                    if (preloaderText) preloaderText.textContent = "AWAKENING ROYAL GOLD SENSES...";
-                    setTimeout(() => {
-                        preloader.classList.add('loaded');
-                        startFirstArrivalAutoplay();
-                    }, 250);
-                }
-            };
-
-            img.onerror = () => {
-                // If Black%20hero fails, fallback to normalized directory black_hero
-                if (!img.src.includes('black_hero')) {
-                    const frameNum = String(i + FRAME_START_INDEX).padStart(3, '0');
-                    img.src = `black_hero/${FRAME_PREFIX}${frameNum}${FRAME_EXT}`;
-                    return;
-                }
-                loadedCount++;
-                if (loadedCount >= TOTAL_FRAMES && preloader) {
+    function updatePreloader() {
+        const pct = Math.min(100, Math.round((loadedCount / TOTAL_FRAMES) * 100));
+        if (preloaderBar) preloaderBar.style.width = pct + '%';
+        if (preloaderPercent) preloaderPercent.textContent = pct + '%';
+        // Once initial 30 frames are ready or total frames reach 100%, dismiss preloader
+        if (loadedCount >= 30 || pct >= 100) {
+            if (preloaderText) preloaderText.textContent = "AWAKENING BESPOKE SILLAGE...";
+            setTimeout(() => {
+                if (preloader && !preloader.classList.contains('loaded')) {
                     preloader.classList.add('loaded');
-                    startFirstArrivalAutoplay();
                 }
-            };
+            }, 100);
+        }
+    }
+
+    function getBestAvailableFrame(index) {
+        const safeIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(index) % TOTAL_FRAMES));
+        if (frames[safeIdx] && frames[safeIdx].complete && frames[safeIdx].naturalWidth > 0) {
+            return frames[safeIdx];
+        }
+        for (let i = safeIdx - 1; i >= 0; i--) {
+            if (frames[i] && frames[i].complete && frames[i].naturalWidth > 0) {
+                return frames[i];
+            }
+        }
+        for (let i = safeIdx + 1; i < TOTAL_FRAMES; i++) {
+            if (frames[i] && frames[i].complete && frames[i].naturalWidth > 0) {
+                return frames[i];
+            }
+        }
+        return frames[0] || null;
+    }
+
+    function drawFrame(index) {
+        if (!ctx || !canvas) return;
+        const normIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(index) % TOTAL_FRAMES));
+        const img = getBestAvailableFrame(normIdx);
+        if (!img || !img.naturalWidth) return;
+
+        const imgW = img.naturalWidth;
+        const imgH = img.naturalHeight;
+        const imgRatio = imgW / imgH;
+        const canvasRatio = canvasW / canvasH;
+
+        let drawW, drawH, drawX, drawY;
+        if (canvasRatio > imgRatio) {
+            drawW = canvasW;
+            drawH = canvasW / imgRatio;
+            drawX = 0;
+            drawY = (canvasH - drawH) / 2;
+        } else {
+            drawH = canvasH;
+            drawW = canvasH * imgRatio;
+            drawX = (canvasW - drawW) / 2;
+            drawY = 0;
         }
 
-        // Safety fallback: ensure preloader dismisses and autoplay starts reliably
-        setTimeout(() => {
-            if (preloader && !preloader.classList.contains('loaded')) {
-                preloader.classList.add('loaded');
-            }
-            startFirstArrivalAutoplay();
-        }, 1200);
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, canvasW, canvasH);
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        lastDrawnFrame = normIdx;
+
+        if (frameIndicator) {
+            frameIndicator.textContent = String(normIdx + 1).padStart(3, '0') + ' / ' + TOTAL_FRAMES;
+        }
     }
 
-    // =========================================================================
-    // 3. CANVAS HIGH-DPI SCALING & COVER DRAWING
-    // =========================================================================
-    let lastRenderedFrame = -1;
+    const STORY_PHASES = [
+        {
+            from: 0,
+            to: 70,
+            chapter: 'ACTE I',
+            title: "L'OBSIDIENNE & LA VAPEUR",
+            desc: 'Obsidian glass emerging through celestial gold mist.'
+        },
+        {
+            from: 71,
+            to: 145,
+            chapter: 'ACTE II',
+            title: "LE COLLIER D'OR 24 CARATS",
+            desc: 'Architectural flacon crowned in hand-sculpted French gold.'
+        },
+        {
+            from: 146,
+            to: 212,
+            chapter: 'ACTE III',
+            title: "L'EXTRAIT NOIR · BESPOKE SILLAGE",
+            desc: 'Astronomical sillage captured for eternity in Paris.'
+        }
+    ];
+
+    let currentStoryIndex = -1;
+    function updateStoryOverlay(frameIdx) {
+        if (!storyOverlay || !storyChapter || !storyTitle || !storyDesc) return;
+        
+        const safeIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(frameIdx) % TOTAL_FRAMES));
+        if (safeIdx < 20) {
+            storyOverlay.classList.remove('visible');
+            currentStoryIndex = -1;
+            return;
+        }
+
+        const phaseIdx = STORY_PHASES.findIndex(p => safeIdx >= p.from && safeIdx <= p.to);
+        if (phaseIdx !== -1 && phaseIdx !== currentStoryIndex) {
+            currentStoryIndex = phaseIdx;
+            const phase = STORY_PHASES[phaseIdx];
+            storyChapter.textContent = phase.chapter;
+            storyTitle.textContent = phase.title;
+            storyDesc.textContent = phase.desc;
+            storyOverlay.classList.add('visible');
+        }
+    }
 
     function resizeCanvas() {
         if (!canvas || !ctx) return;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const parent = canvas.parentElement || canvas;
-        const w = parent.clientWidth || window.innerWidth;
-        const h = parent.clientHeight || window.innerHeight;
-
-        canvas.width = Math.round(w * dpr);
-        canvas.height = Math.round(h * dpr);
-        canvas.style.width = `${w}px`;
-        canvas.style.height = `${h}px`;
-
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.scale(dpr, dpr);
-
-        lastRenderedFrame = -1;
-        drawFrame(Math.round(currentFrameFloat));
-    }
-
-    window.addEventListener('resize', resizeCanvas, { passive: true });
-
-    function drawFrame(frameIndex) {
-        if (!ctx || !canvas) return;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvasW = window.innerWidth;
+        canvasH = window.innerHeight;
         
-        let idx = Math.min(Math.max(frameIndex, 0), TOTAL_FRAMES - 1);
-        let img = frames[idx];
-
-        // Graceful fallback to nearest loaded frame if scrubbing ahead of network
-        if (!img || !img.complete) {
-            for (let offset = 1; offset < 30; offset++) {
-                if (idx - offset >= 0 && frames[idx - offset] && frames[idx - offset].complete) {
-                    img = frames[idx - offset];
-                    break;
-                }
-                if (idx + offset < TOTAL_FRAMES && frames[idx + offset] && frames[idx + offset].complete) {
-                    img = frames[idx + offset];
-                    break;
-                }
-            }
-        }
-
-        if (!img || !img.complete) return;
-        if (lastRenderedFrame === idx) return;
-        lastRenderedFrame = idx;
-
-        const parent = canvas.parentElement || canvas;
-        const canvasW = parent.clientWidth || window.innerWidth;
-        const canvasH = parent.clientHeight || window.innerHeight;
-        const imgW = img.naturalWidth || 1920;
-        const imgH = img.naturalHeight || 1080;
-
-        // Aspect ratio cover calculation (fills the hero section edge-to-edge)
-        const scale = Math.max(canvasW / imgW, canvasH / imgH);
-        const drawW = imgW * scale;
-        const drawH = imgH * scale;
-        const drawX = (canvasW - drawW) / 2;
-        const drawY = (canvasH - drawH) / 2;
-
-        ctx.clearRect(0, 0, canvasW, canvasH);
-        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        canvas.width = Math.round(canvasW * dpr);
+        canvas.height = Math.round(canvasH * dpr);
+        canvas.style.width = canvasW + 'px';
+        canvas.style.height = canvasH + 'px';
+        
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        lastDrawnFrame = -1;
+        drawFrame(Math.round(currentFrame));
     }
 
     // =========================================================================
-    // 4. SCROLL INTERPOLATION & LOOP MECHANICS
+    // 1-TIME AUTOMATIC PLAYBACK (On Landing & Whenever Refreshed)
     // =========================================================================
-    let autoplayFinishedAtEnd = false;
+    function startIntroAutoPlay() {
+        isIntroAutoPlaying = true;
+        introStartTime = null;
+        if (counterLabel) {
+            counterLabel.textContent = "AUTOPLAYING REVEAL · 1X";
+        }
+        requestAnimationFrame(introAutoPlayStep);
+    }
 
-    function updateScrollProgress() {
-        if (!scrollTrack) return;
-
-        const rect = scrollTrack.getBoundingClientRect();
-        const scrollDistance = scrollTrack.offsetHeight - window.innerHeight;
-        const currentScrolled = -rect.top;
-
-        if (scrollDistance <= 0) return;
-
-        // If user interrupts autoplay by scrolling near the top, stop and start from over
-        if (isAutoPlaying) {
-            stopAutoPlay();
-            if (currentScrolled < 150) {
-                currentFrameFloat = 0;
-                targetFrame = 0;
-                drawFrame(0);
+    function introAutoPlayStep(timestamp) {
+        // If user scrolled down or interacted, cancel auto-play and let scroll take over
+        if (!isIntroAutoPlaying || hasUserInteracted || window.scrollY > 15) {
+            isIntroAutoPlaying = false;
+            if (counterLabel) {
+                counterLabel.textContent = "SCROLL TO LOOP SILLAGE";
             }
+            return;
         }
 
-        // After the ending of autoplay video, video starts from over when scrolling
-        if (autoplayFinishedAtEnd) {
-            currentFrameFloat = 0;
-            targetFrame = 0;
-            drawFrame(0);
-            autoplayFinishedAtEnd = false;
+        if (!introStartTime) introStartTime = timestamp;
+        const elapsed = timestamp - introStartTime;
+        const progress = Math.min(1, elapsed / INTRO_AUTOPLAY_DURATION);
+
+        // Step smoothly from frame 0 to frame 299
+        const frameIdx = Math.min(TOTAL_FRAMES - 1, Math.floor(progress * (TOTAL_FRAMES - 1)));
+        currentFrame = frameIdx;
+        targetFrame = frameIdx;
+        drawFrame(frameIdx);
+        updateStoryOverlay(frameIdx);
+
+        if (typeof updateAudioSwell === 'function') {
+            updateAudioSwell(progress * 0.65);
         }
 
-        // Calculate progress along track
-        let progress = currentScrolled / scrollDistance;
-
-        if (loopMode === 'infinite') {
-            // Infinite loop: cycles every 1/3 of the track (3 complete loops per full scroll)
-            // or wraps smoothly modulo 1.0
-            const cyclesPerTrack = 2.0;
-            const virtualCycle = (progress * cyclesPerTrack);
-            rawProgress = virtualCycle % 1.0;
-            if (rawProgress < 0) rawProgress += 1.0;
-            targetFrame = Math.floor(rawProgress * TOTAL_FRAMES);
-
-            // Infinite scroll wrapping: when approaching track end, silently reset scroll
-            if (currentScrolled >= scrollDistance * 0.95) {
-                const resetScrollY = window.scrollY - (scrollDistance * 0.5);
-                window.scrollTo({ top: resetScrollY, behavior: 'instant' });
-            }
-        } else if (loopMode === 'ping-pong') {
-            // Ping-pong loop: forward then backward
-            const pingPongCycle = (progress * 2) % 2.0;
-            if (pingPongCycle <= 1.0) {
-                rawProgress = pingPongCycle;
-            } else {
-                rawProgress = 2.0 - pingPongCycle;
-            }
-            targetFrame = Math.floor(rawProgress * (TOTAL_FRAMES - 1));
+        if (progress < 1) {
+            requestAnimationFrame(introAutoPlayStep);
         } else {
-            // Bound mode (standard 0.0 to 1.0)
-            rawProgress = Math.max(0, Math.min(1, progress));
-            targetFrame = Math.round(rawProgress * (TOTAL_FRAMES - 1));
+            // 1-time auto-play completed!
+            isIntroAutoPlaying = false;
+            if (counterLabel) {
+                counterLabel.textContent = "SCROLL TO LOOP SILLAGE";
+            }
+        }
+    }
+
+    // =========================================================================
+    // SCROLL ANIMATION KEEP IT ON LOOP
+    // =========================================================================
+    function animationLoop() {
+        if (isIntroAutoPlaying) {
+            isTicking = false;
+            return;
         }
 
-        // Mist sound synthesis update
-        updateAudioSwell(rawProgress);
+        let diff = targetFrame - currentFrame;
 
-        // Text does NOT fade away when scrolling
+        // Modular shortest-distance wrap-around for seamless infinite looping
+        if (diff > TOTAL_FRAMES / 2) {
+            diff -= TOTAL_FRAMES;
+        } else if (diff < -TOTAL_FRAMES / 2) {
+            diff += TOTAL_FRAMES;
+        }
+
+        currentFrame += diff * 0.18;
+        if (currentFrame >= TOTAL_FRAMES) currentFrame -= TOTAL_FRAMES;
+        if (currentFrame < 0) currentFrame += TOTAL_FRAMES;
+
+        const frameToDraw = Math.round(currentFrame) % TOTAL_FRAMES;
+        if (frameToDraw !== lastDrawnFrame) {
+            drawFrame(frameToDraw);
+            updateStoryOverlay(frameToDraw);
+        }
+
+        if (Math.abs(diff) > 0.04) {
+            requestAnimationFrame(animationLoop);
+        } else {
+            currentFrame = targetFrame;
+            const finalFrame = Math.round(currentFrame) % TOTAL_FRAMES;
+            if (finalFrame !== lastDrawnFrame) {
+                drawFrame(finalFrame);
+                updateStoryOverlay(finalFrame);
+            }
+            isTicking = false;
+        }
+    }
+
+    function onHeroScroll() {
+        // If user scrolls, smoothly cancel intro autoplay and let scroll handle looping
+        if (window.scrollY > 15 && isIntroAutoPlaying) {
+            isIntroAutoPlaying = false;
+            hasUserInteracted = true;
+            if (counterLabel) {
+                counterLabel.textContent = "360° SILLAGE LOOP";
+            }
+        }
+
+        if (!heroSection) return;
+        const rect = heroSection.getBoundingClientRect();
+        const scrollDist = heroSection.offsetHeight - window.innerHeight;
+        if (scrollDist <= 0) return;
+
+        const scrolled = -rect.top;
+        const normalizedProgress = Math.max(0, Math.min(1, scrolled / scrollDist));
+
+        // When inside the hero section runway, animate on loop:
+        if (scrolled >= 0 && scrolled <= scrollDist) {
+            // Every 700px of scroll performs 1 complete 360-degree loop (213 frames)!
+            const PIXELS_PER_LOOP = 700;
+            const rawFrame = (scrolled / PIXELS_PER_LOOP) * TOTAL_FRAMES;
+            targetFrame = Math.floor(rawFrame) % TOTAL_FRAMES;
+            if (targetFrame < 0) targetFrame += TOTAL_FRAMES;
+        } else if (scrolled < 0) {
+            targetFrame = 0;
+        } else {
+            targetFrame = TOTAL_FRAMES - 1;
+        }
+
         if (heroIntro) {
-            heroIntro.style.opacity = '1';
-            heroIntro.style.pointerEvents = 'auto';
-            heroIntro.style.transform = `translateY(${-rawProgress * 24}px)`;
+            if (scrolled <= 30) {
+                heroIntro.style.opacity = '1';
+                heroIntro.style.transform = 'translateY(0px)';
+                heroIntro.style.pointerEvents = 'auto';
+            } else {
+                const fadePct = Math.min(1, (scrolled - 30) / (window.innerHeight * 0.45));
+                heroIntro.style.opacity = String(Math.max(0, 1 - fadePct * 1.15));
+                heroIntro.style.transform = 'translateY(' + (scrolled * 0.35) + 'px)';
+                heroIntro.style.pointerEvents = fadePct > 0.8 ? 'none' : 'auto';
+            }
         }
 
         if (scrollHint) {
-            scrollHint.style.opacity = '1';
+            const hintFade = Math.max(0, 1 - normalizedProgress * 6);
+            scrollHint.style.opacity = String(hintFade);
         }
 
-        // Dynamic header theme: obsidian dark over hero section, ivory light over editorial sections
+        if (typeof updateAudioSwell === 'function') {
+            updateAudioSwell(normalizedProgress);
+        }
+
         const siteHeader = document.getElementById('siteHeader');
         if (siteHeader) {
-            if (rawProgress >= 0.88) {
-                siteHeader.classList.add('header-light');
+            if (window.scrollY > 80) {
+                siteHeader.classList.add('header-scrolled');
             } else {
-                siteHeader.classList.remove('header-light');
-            }
-        }
-    }
-
-    window.addEventListener('scroll', updateScrollProgress, { passive: true });
-
-    // =========================================================================
-    // 5. SMOOTH PHYSICS & RENDER LOOP (LERP DAMPING)
-    // =========================================================================
-    function renderLoop() {
-        if (isAutoPlaying) {
-            currentFrameFloat = targetFrame;
-        } else {
-            // Smoothly interpolate current frame towards target frame
-            let diff = targetFrame - currentFrameFloat;
-
-            // Handle wrap-around interpolation for seamless loop
-            if (loopMode === 'infinite') {
-                if (diff > TOTAL_FRAMES / 2) {
-                    diff -= TOTAL_FRAMES;
-                } else if (diff < -TOTAL_FRAMES / 2) {
-                    diff += TOTAL_FRAMES;
-                }
-            }
-
-            // Speed up scroll up animation with an ultra-responsive lerp factor (0.75 vs 0.30)
-            // diff < 0 indicates scrolling up: fast 0.75 factor; scrolling down: 0.30 factor
-            const lerpFactor = diff < 0 ? 0.75 : 0.30;
-            currentFrameFloat += diff * lerpFactor;
-
-            if (loopMode === 'infinite') {
-                if (currentFrameFloat >= TOTAL_FRAMES) currentFrameFloat -= TOTAL_FRAMES;
-                if (currentFrameFloat < 0) currentFrameFloat += TOTAL_FRAMES;
+                siteHeader.classList.remove('header-scrolled');
             }
         }
 
-        const frameToDraw = Math.round(currentFrameFloat) % TOTAL_FRAMES;
-        drawFrame(frameToDraw);
-        updateHUDAndOverlays(frameToDraw, rawProgress);
-
-        requestAnimationFrame(renderLoop);
-    }
-
-    // =========================================================================
-    // 6. SYNCHRONIZED HUD & STORY OVERLAYS
-    // =========================================================================
-    function updateHUDAndOverlays(frameIndex, progress) {
-        const percentVal = Math.round(progress * 100);
-        
-        if (scrubFillBar) scrubFillBar.style.width = `${progress * 100}%`;
-        if (scrubThumb) scrubThumb.style.left = `${progress * 100}%`;
-        if (hudPercent) hudPercent.textContent = `${percentVal}%`;
-        
-        if (hudFrameCounter) {
-            const frameNum = String(frameIndex + 1).padStart(3, '0');
-            hudFrameCounter.textContent = `FRAME ${frameNum} / ${TOTAL_FRAMES}`;
-        }
-
-        // Phase segmentation across 240 frames
-        let activeIndex = 0;
-        let phaseTitle = 'PHASE I: THE DROPLET & RIPPLE';
-
-        if (frameIndex < 60) {
-            activeIndex = 0;
-            phaseTitle = 'PHASE I: THE DROPLET & RIPPLE';
-        } else if (frameIndex < 120) {
-            activeIndex = 1;
-            phaseTitle = 'PHASE II: MICRO-ATOMIZATION';
-        } else if (frameIndex < 180) {
-            activeIndex = 2;
-            phaseTitle = 'PHASE III: THE ROSE GOLD FLACON';
-        } else {
-            activeIndex = 3;
-            phaseTitle = 'PHASE IV: RESONANCE ETERNAL';
-        }
-
-        if (hudPhaseName) hudPhaseName.textContent = phaseTitle;
-
-        storySteps.forEach((step, idx) => {
-            if (!step) return;
-            if (idx === activeIndex) {
-                step.classList.add('active');
-            } else {
-                step.classList.remove('active');
-            }
-        });
-    }
-
-    // =========================================================================
-    // 7. INTERACTIVE SCRUBBER (CLICK & DRAG)
-    // =========================================================================
-    if (scrubContainer) {
-        let isScrubbing = false;
-
-        const handleScrubMove = (e) => {
-            const rect = scrubContainer.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const scrubFraction = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-
-            rawProgress = scrubFraction;
-            targetFrame = Math.round(scrubFraction * (TOTAL_FRAMES - 1));
-            currentFrameFloat = targetFrame;
-
-            if (scrollTrack && !isAutoPlaying) {
-                const trackTop = window.scrollY + scrollTrack.getBoundingClientRect().top;
-                const scrollDistance = scrollTrack.offsetHeight - window.innerHeight;
-                window.scrollTo({
-                    top: trackTop + (scrubFraction * scrollDistance),
-                    behavior: 'instant'
-                });
-            }
-
-            updateAudioSwell(rawProgress);
-        };
-
-        scrubContainer.addEventListener('mousedown', (e) => {
-            isScrubbing = true;
-            if (isAutoPlaying) stopAutoPlay();
-            handleScrubMove(e);
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (isScrubbing) handleScrubMove(e);
-        });
-
-        window.addEventListener('mouseup', () => {
-            isScrubbing = false;
-        });
-
-        scrubContainer.addEventListener('touchstart', (e) => {
-            isScrubbing = true;
-            if (isAutoPlaying) stopAutoPlay();
-            handleScrubMove(e);
-        }, { passive: true });
-
-        window.addEventListener('touchmove', (e) => {
-            if (isScrubbing) handleScrubMove(e);
-        }, { passive: true });
-
-        window.addEventListener('touchend', () => {
-            isScrubbing = false;
-        });
-    }
-
-    // =========================================================================
-    // 8. AUTO-PLAY LOOP ENGINE
-    // =========================================================================
-    function toggleAutoPlay() {
-        if (isAutoPlaying) {
-            stopAutoPlay();
-        } else {
-            startAutoPlay();
+        if (!isTicking && !isIntroAutoPlaying) {
+            isTicking = true;
+            requestAnimationFrame(animationLoop);
         }
     }
 
-    function stopAutoPlay() {
-        isAutoPlaying = false;
-        if (playBtnText) playBtnText.textContent = "AUTO-PLAY";
-        if (playIconSvg) {
-            playIconSvg.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"/>';
-        }
-        if (autoPlayAnimId) {
-            cancelAnimationFrame(autoPlayAnimId);
-            autoPlayAnimId = null;
-        }
+    // Audio swell modulation linked to scroll progress
+    function updateAudioSwell(progress) {
+        if (!audioCtx || !isSoundOn || !mistGain || !mistFilter) return;
+        try {
+            const now = audioCtx.currentTime;
+            const swell = 0.04 + Math.sin(progress * Math.PI) * 0.12;
+            mistGain.gain.setTargetAtTime(swell, now, 0.1);
+            mistFilter.frequency.setTargetAtTime(1600 + progress * 1400, now, 0.1);
+        } catch (e) {}
     }
 
-    function startAutoPlay() {
-        if (isAutoPlaying) return;
-        isAutoPlaying = true;
-        if (playBtnText) playBtnText.textContent = "PAUSE";
-        if (playIconSvg) {
-            playIconSvg.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
-        }
-
-        // If in bound mode and already at the end, restart from frame 0
-        if (loopMode === 'bound' && currentFrameFloat >= TOTAL_FRAMES - 1) {
-            autoPlayFloat = 0;
-            currentFrameFloat = 0;
+    // Replay on button click
+    if (scrollCounterBtn) {
+        scrollCounterBtn.addEventListener('click', () => {
+            isIntroAutoPlaying = true;
+            hasUserInteracted = false;
+            currentFrame = 0;
             targetFrame = 0;
-        } else {
-            autoPlayFloat = currentFrameFloat;
-        }
-
-        let lastTime = performance.now();
-        let pingPongDir = 1;
-
-        function autoStep(now) {
-            if (!isAutoPlaying) return;
-
-            const delta = (now - lastTime) / 1000;
-            lastTime = now;
-
-            // Advance smoothly (~36 frames per second at 1.0x speed)
-            const frameIncrement = delta * 36 * playbackSpeed;
-
-            if (loopMode === 'ping-pong') {
-                autoPlayFloat += frameIncrement * pingPongDir;
-                if (autoPlayFloat >= TOTAL_FRAMES - 1) {
-                    autoPlayFloat = TOTAL_FRAMES - 1;
-                    pingPongDir = -1;
-                } else if (autoPlayFloat <= 0) {
-                    autoPlayFloat = 0;
-                    pingPongDir = 1;
-                }
-            } else if (loopMode === 'bound') {
-                autoPlayFloat += frameIncrement;
-                if (autoPlayFloat >= TOTAL_FRAMES - 1) {
-                    autoPlayFloat = TOTAL_FRAMES - 1;
-                    targetFrame = TOTAL_FRAMES - 1;
-                    currentFrameFloat = TOTAL_FRAMES - 1;
-                    rawProgress = 1.0;
-                    drawFrame(TOTAL_FRAMES - 1);
-                    updateHUDAndOverlays(TOTAL_FRAMES - 1, 1.0);
-                    stopAutoPlay();
-                    autoplayFinishedAtEnd = true;
-                    return;
-                }
-            } else {
-                // Infinite cycle loop
-                autoPlayFloat = (autoPlayFloat + frameIncrement) % TOTAL_FRAMES;
-            }
-
-            targetFrame = Math.floor(autoPlayFloat);
-            currentFrameFloat = autoPlayFloat;
-            rawProgress = autoPlayFloat / (TOTAL_FRAMES - 1);
-
-            updateAudioSwell(rawProgress);
-
-            autoPlayAnimId = requestAnimationFrame(autoStep);
-        }
-
-        autoPlayAnimId = requestAnimationFrame(autoStep);
-    }
-
-    // First Arrival Autoplay: triggers on first visit after preloader dismisses
-    let hasFirstArrivalPlayed = false;
-    function startFirstArrivalAutoplay() {
-        if (hasFirstArrivalPlayed) return;
-        hasFirstArrivalPlayed = true;
-
-        // If visitor hasn't scrolled down, start cinematic intro autoplay
-        if (window.scrollY < 120) {
-            autoPlayFloat = 0;
-            currentFrameFloat = 0;
-            targetFrame = 0;
-            rawProgress = 0;
-            drawFrame(0);
-            updateHUDAndOverlays(0, 0);
-            startAutoPlay();
-        }
-    }
-
-    if (autoPlayToggleBtn) {
-        autoPlayToggleBtn.addEventListener('click', toggleAutoPlay);
-    }
-
-    // =========================================================================
-    // 9. LOOP MODE SWITCHER
-    // =========================================================================
-    if (loopModeBtn) {
-        loopModeBtn.addEventListener('click', () => {
-            if (loopMode === 'bound') {
-                loopMode = 'infinite';
-                if (loopModeText) loopModeText.textContent = 'LOOP: INFINITE';
-            } else if (loopMode === 'infinite') {
-                loopMode = 'ping-pong';
-                if (loopModeText) loopModeText.textContent = 'LOOP: PING-PONG';
-            } else {
-                loopMode = 'bound';
-                if (loopModeText) loopModeText.textContent = 'LOOP: BOUND';
-            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            startIntroAutoPlay();
         });
     }
 
-    // Playback Speed Selector (0.5x -> 1.0x -> 1.5x -> 2.0x)
-    if (speedToggleBtn) {
-        speedToggleBtn.addEventListener('click', () => {
-            if (playbackSpeed === 1.0) {
-                playbackSpeed = 1.5;
-            } else if (playbackSpeed === 1.5) {
-                playbackSpeed = 2.0;
-            } else if (playbackSpeed === 2.0) {
-                playbackSpeed = 0.5;
-            } else {
-                playbackSpeed = 1.0;
+    // Preload Frame 0 immediately for instant display
+    const frame0 = new Image();
+    frame0.src = getFrameUrl(0);
+    frame0.onload = () => {
+        frames[0] = frame0;
+        loadedCount++;
+        resizeCanvas();
+        drawFrame(0);
+        preloadRemainingFrames();
+
+        // Start 1-time auto-play automatically when landed or refreshed
+        setTimeout(() => {
+            startIntroAutoPlay();
+        }, 280);
+    };
+    frame0.onerror = () => {
+        frame0.src = getFallbackUrl(0);
+        preloadRemainingFrames();
+    };
+
+    function preloadRemainingFrames() {
+        const PRIORITY_BATCH = 45;
+        // Priority batch: load first 45 frames so playback starts immediately without waiting
+        for (let i = 1; i < Math.min(PRIORITY_BATCH, TOTAL_FRAMES); i++) {
+            const img = new Image();
+            img.src = getFrameUrl(i);
+            img.onload = () => {
+                frames[i] = img;
+                loadedCount++;
+                updatePreloader();
+            };
+            img.onerror = () => {
+                img.src = getFallbackUrl(i);
+            };
+        }
+
+        // Background stream remaining frames
+        setTimeout(() => {
+            for (let i = PRIORITY_BATCH; i < TOTAL_FRAMES; i++) {
+                const img = new Image();
+                img.src = getFrameUrl(i);
+                img.onload = () => {
+                    frames[i] = img;
+                    loadedCount++;
+                    updatePreloader();
+                };
+                img.onerror = () => {
+                    img.src = getFallbackUrl(i);
+                };
             }
-            if (speedText) speedText.textContent = `${playbackSpeed}x`;
-        });
+        }, 120);
     }
 
-    // Restart Button
-    if (restartBtn) {
-        restartBtn.addEventListener('click', () => {
-            if (isAutoPlaying) stopAutoPlay();
-            targetFrame = 0;
-            currentFrameFloat = 0;
-            rawProgress = 0;
-            if (scrollTrack) {
-                const trackTop = window.scrollY + scrollTrack.getBoundingClientRect().top;
-                window.scrollTo({ top: trackTop, behavior: 'smooth' });
-            }
-        });
-    }
+    window.addEventListener('resize', resizeCanvas, { passive: true });
+    window.addEventListener('scroll', onHeroScroll, { passive: true });
+    resizeCanvas();
 
-    // User interaction immediately pauses auto-play and yields to manual scroll control
-    ['wheel', 'touchmove', 'touchstart'].forEach(evt => {
-        window.addEventListener(evt, () => {
-            if (isAutoPlaying) stopAutoPlay();
-        }, { passive: true });
-    });
-
-    // =========================================================================
-    // 10. WEB AUDIO API SYNTHESIZER (AMBIENT DRONE + MIST SPRAY NOISE)
-    // =========================================================================
+    // ===================================================================================
     let audioCtx = null;
     let isSoundOn = false;
     let masterGain = null;
