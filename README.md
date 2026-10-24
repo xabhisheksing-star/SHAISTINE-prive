@@ -10,7 +10,6 @@ An ultra-luxury, editorial Fine Perfumery digital experience showcasing **THE BL
    - High-DPI canvas cover-scaling for crisp rendering across all viewports.
    - 1-time automatic playback on page landing or refresh.
    - Continuous seamless loop scroll animation across all 213 frames.
-   - Precision milestone story chapters synchronized with frame ranges (*Act I* through *Act III*).
 
 2. **Atmospheric Golden Foggy Cursor Glow & Perfume Mist Trail**:
    - Preserves crisp, non-transparent native OS cursors everywhere.

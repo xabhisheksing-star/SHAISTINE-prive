@@ -22,10 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const frameIndicator = document.getElementById('frameIndicator');
     const counterLabel = document.getElementById('counterLabel');
     const scrollCounterBtn = document.getElementById('scrollCounterBtn');
-    const storyOverlay = document.getElementById('heroStoryOverlay');
-    const storyChapter = document.getElementById('storyChapter');
-    const storyTitle = document.getElementById('storyTitle');
-    const storyDesc = document.getElementById('storyDesc');
 
     const preloader = document.getElementById('preloader');
     const preloaderBar = document.getElementById('preloaderBar');
@@ -132,52 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const STORY_PHASES = [
-        {
-            from: 0,
-            to: 70,
-            chapter: 'ACT I',
-            title: "OBSIDIAN & CELESTIAL MIST",
-            desc: 'Obsidian glass emerging through celestial gold mist.'
-        },
-        {
-            from: 71,
-            to: 145,
-            chapter: 'ACT II',
-            title: "THE 24-KARAT GOLD COLLAR",
-            desc: 'Architectural bottle crowned in hand-sculpted French gold.'
-        },
-        {
-            from: 146,
-            to: 212,
-            chapter: 'ACT III',
-            title: "THE BLACK EXTRACT · BESPOKE SILLAGE",
-            desc: 'Astronomical sillage captured for eternity in Paris.'
-        }
-    ];
-
-    let currentStoryIndex = -1;
-    function updateStoryOverlay(frameIdx) {
-        if (!storyOverlay || !storyChapter || !storyTitle || !storyDesc) return;
-        
-        const safeIdx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(frameIdx) % TOTAL_FRAMES));
-        if (safeIdx < 20) {
-            storyOverlay.classList.remove('visible');
-            currentStoryIndex = -1;
-            return;
-        }
-
-        const phaseIdx = STORY_PHASES.findIndex(p => safeIdx >= p.from && safeIdx <= p.to);
-        if (phaseIdx !== -1 && phaseIdx !== currentStoryIndex) {
-            currentStoryIndex = phaseIdx;
-            const phase = STORY_PHASES[phaseIdx];
-            storyChapter.textContent = phase.chapter;
-            storyTitle.textContent = phase.title;
-            storyDesc.textContent = phase.desc;
-            storyOverlay.classList.add('visible');
-        }
-    }
-
     function resizeCanvas() {
         if (!canvas || !ctx) return;
         dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -225,7 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentFrame = frameIdx;
         targetFrame = frameIdx;
         drawFrame(frameIdx);
-        updateStoryOverlay(frameIdx);
 
         if (typeof updateAudioSwell === 'function') {
             updateAudioSwell(progress * 0.65);
@@ -267,7 +216,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const frameToDraw = Math.round(currentFrame) % TOTAL_FRAMES;
         if (frameToDraw !== lastDrawnFrame) {
             drawFrame(frameToDraw);
-            updateStoryOverlay(frameToDraw);
         }
 
         if (Math.abs(diff) > 0.04) {
@@ -277,7 +225,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const finalFrame = Math.round(currentFrame) % TOTAL_FRAMES;
             if (finalFrame !== lastDrawnFrame) {
                 drawFrame(finalFrame);
-                updateStoryOverlay(finalFrame);
             }
             isTicking = false;
         }
