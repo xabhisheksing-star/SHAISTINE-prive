@@ -617,7 +617,6 @@ body {
     pointer-events: auto;
     opacity: 1 !important;
     padding-top: 40px;
-    transition: transform 0.4s var(--transition-smooth);
 }
 
 .hero-intro-badge {
@@ -1816,9 +1815,10 @@ body {
 /* Media Queries */
 @media (max-width: 1024px) {
     .hero-intro-overlay {
-        top: 11%;
-        left: 50%;
-        transform: translateX(-50%);
+        margin: 0 auto;
+        left: auto;
+        top: auto;
+        transform: none;
         width: 90%;
         max-width: 480px;
         text-align: center;

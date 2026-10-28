@@ -262,16 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (heroIntro) {
-            if (scrolled <= 30) {
-                heroIntro.style.opacity = '1';
-                heroIntro.style.transform = 'translateY(0px)';
-                heroIntro.style.pointerEvents = 'auto';
-            } else {
-                const fadePct = Math.min(1, (scrolled - 30) / (window.innerHeight * 0.45));
-                heroIntro.style.opacity = String(Math.max(0, 1 - fadePct * 1.15));
-                heroIntro.style.transform = 'translateY(' + (scrolled * 0.35) + 'px)';
-                heroIntro.style.pointerEvents = fadePct > 0.8 ? 'none' : 'auto';
-            }
+            heroIntro.style.opacity = '1';
+            heroIntro.style.transform = 'none';
+            heroIntro.style.pointerEvents = 'auto';
         }
 
         if (scrollHint) {
